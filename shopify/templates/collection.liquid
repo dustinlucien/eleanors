@@ -19,7 +19,7 @@
     
         <ul class="product-grid clearfix">
         {% for product in collection.products %}
-          <li{% cycle '', '', ' class="last-in-row"' %}>
+          <li{% cycle ' class="first-in-row"', '', ' class="last-in-row"' %}>
             {% include 'product-grid-item' %}
           </li>
         {% endfor %}

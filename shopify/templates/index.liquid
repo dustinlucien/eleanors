@@ -63,7 +63,7 @@
 
       <ul class="product-grid" id="secondary-grid">
         {% for product in homeCollection.products limit: settings.home_products_limit %}
-        <li{% cycle '', '', '', ' class="last-in-row"' %}>
+        <li{% cycle '', '', ' class="last-in-row"' %}>
           {% include 'product-grid-item' %}
         </li>
         {% endfor %}

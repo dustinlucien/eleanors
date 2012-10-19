@@ -8,35 +8,15 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <link rel="canonical" href="{{ canonical_url }}" /> 
   <link rel="shortcut icon" href="{{ 'favicon.ico' | asset_url }}" />
-  <meta name="google-site-verification" content="jooFVOaaW0V_TqwFce8-Y-rA4V90SnqekhRa4cSp4KM" />
-  <meta name="bitly-verification" content="32056bb61827"/>
   
-  <!-- Meta Tags Editor -->
-{% if template contains 'product' %}
-	<meta name="description" content="{{ product.metafields.spur_it_metatag.description }}" />
-	<meta name="keywords" content="{{ product.metafields.spur_it_metatag.keywords }}" />
-	<meta name="title" content="{{ product.metafields.spur_it_metatag.title }}" />
-{% elsif template contains 'blog' %}
-	<meta name="description" content="{{ blog.metafields.spur_it_metatag.description }}" />
-	<meta name="keywords" content="{{ blog.metafields.spur_it_metatag.keywords }}" />
-	<meta name="title" content="{{ blog.metafields.spur_it_metatag.title }}" />
-{% elsif template contains 'article' %}
-	<meta name="description" content="{{ article.metafields.spur_it_metatag.description }}" />
-	<meta name="keywords" content="{{ article.metafields.spur_it_metatag.keywords }}" />
-	<meta name="title" content="{{ article.metafields.spur_it_metatag.title }}" />
-{% elsif template contains 'collection' %}
-	<meta name="description" content="{{ collection.metafields.spur_it_metatag.description }}" />
-	<meta name="keywords" content="{{ collection.metafields.spur_it_metatag.keywords }}" />
-	<meta name="title" content="{{ collection.metafields.spur_it_metatag.title }}" />
-{% elsif template contains 'page' %}
-	<meta name="description" content="{{ page.metafields.spur_it_metatag.description }}" />
-	<meta name="keywords" content="{{ page.metafields.spur_it_metatag.keywords }}" />
-	<meta name="title" content="{{ page.metafields.spur_it_metatag.title }}" />
-{% elsif template contains 'index' %}
-	<meta name="description" content="{{ shop.metafields.spur_it_metatag.description }}" />
-	<meta name="keywords" content="{{ shop.metafields.spur_it_metatag.keywords }}" />
-	<meta name="title" content="{{ shop.metafields.spur_it_metatag.title }}" />
-{% endif %}
+  {% assign maxmeta = 155 %}
+  {% if template contains 'product' %}
+  <meta name="description" content="{{ product.description | strip_html | strip_newlines | truncate: maxmeta | escape }}" />
+  {% elsif template contains 'page' %}
+  <meta name="description" content="{{ page.content | strip_html | strip_newlines | truncate: maxmeta | escape }}" />
+  {% elsif template == 'index' and shop.description != '' %}
+  <meta name="description" content="{{ shop.description }}" />
+  {% endif %}
 
   {% comment %} 
     Open Graph tags for Facebook Like buttons 
@@ -50,23 +30,21 @@
     {% endif %}
   {% endif %}  
 
-  <!-- Meta Tags Editor -->
-{% if template contains 'product' %}
-	<title>{{ product.metafields.spur_it_metatag.title }}</title>
-{% elsif template contains 'blog' %}
-	<title>{{ blog.metafields.spur_it_metatag.title }}</title>
-{% elsif template contains 'article' %}
-	<title>{{ article.metafields.spur_it_metatag.title }}</title>
-{% elsif template contains 'collection' %}
-	<title>{{ collection.metafields.spur_it_metatag.title }}</title>
-{% elsif template contains 'page' %}
-	<title>{{ page.metafields.spur_it_metatag.title }}</title>
-{% elsif template contains 'index' %}
-	<title>{{ shop.metafields.spur_it_metatag.title }}</title>
-{% endif %}
+  {% if template == 'index' %}
+   <title>{{ shop.name }}</title>
+  {% elsif template == '404' %}
+    <title>Page Not Found | {{ shop.name }}</title>
+  {% else %}
+   <title>{{ page_title }} | {{ shop.name }}</title>
+  {% endif %}
 
   {{ content_for_header }}
 
+	<!-- Frame v0.1 includes -->
+	{% include 'frame_includes' %}
+	<!-- end of Frame v0.1 includes -->
+
+  
   {% case settings.header_font %}
   {% when "Rancho, cursive" %}
     <link href='http://fonts.googleapis.com/css?family=Rancho' rel='stylesheet' type='text/css'>
@@ -89,15 +67,28 @@
   {% endif %}
 
   {{ '//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js' | script_tag }}
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-4f84caf035048903"></script>
+
   <link href="http://cdn-images.mailchimp.com/embedcode/slim-081711.css" rel="stylesheet" type="text/css">
   <style type="text/css">
     #mc_embed_signup{background:#fff;position:relative; top: -60px; float:right; font:14px Helvetica,Arial,sans-serif; }
     /* Add your own MailChimp form style overrides in your site stylesheet or in this style block.
 	   We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
   </style>
+<!-- Added by Lexity. DO NOT REMOVE/EDIT -->
+<script type="text/javascript">
+(function (d, w) {
+  var x = d.getElementsByTagName('SCRIPT')[0], g = d.createElement('SCRIPT'); 
+  g.type = 'text/javascript';
+  g.async = true;
+  g.src = ('https:' == d.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  x.parentNode.insertBefore(g, x);
+}(document, window));
+</script>
+<!-- End of addition by Lexity. DO NOT REMOVE/EDIT -->
 </head>
 
-<body class="{% if customer %}customer-logged-in {% endif %}template{{ template | split: '.' | first | camelize }}">
+<body class="{% if customer %}customer-logged-in {% endif %}template{{ template | split: '.' | first | camelize }}" onload="javascript:pageTracker._setVar('ignore_me');">
   
     
   <div class="wrapper">
@@ -114,10 +105,10 @@
     }(document, 'script', 'facebook-jssdk'));</script>
 <iframe allowtransparency="true" frameborder="0" scrolling="no"
   src="//platform.twitter.com/widgets/follow_button.html?screen_name=EleanorsNYC&show_screen_name=false&show_count=false"
-  style="width:63px; height:20px; position:absolute; top:32px; right:82px;"></iframe>
+  style="width:63px; height:20px; position:absolute; top:4px; right:285px;"></iframe>
 <div class="fb-like" data-href="http://facebook.com/EleanorsNYC" data-send="false" 
 data-layout="button_count" data-width="100" data-show-faces="false" 
-style="position:absolute; top:32px; right:0px;"></div>
+style="position:absolute; top:4px; right:180px;"></div>
           <h1 id="site-title">
             <a href="/" title="Home">
               {% if settings.logo_image == "logo.png" %} 
@@ -160,7 +151,16 @@ style="position:absolute; top:32px; right:0px;"></div>
         </form>
         {% endif %}
       </nav>
-
+        
+        <!-- AddThis Follow BEGIN 
+        <div style="overflow: hidden; position:relative; top:-80px;" class="addthis_toolbox addthis_32x32_style addthis_default_style">
+            <a class="addthis_button_facebook_follow" addthis:userid="EleanorsNYC"></a>
+            <a class="addthis_button_twitter_follow" addthis:userid="eleanorsnyc"></a>
+            <a class="addthis_button_pinterest_follow" addthis:userid="eleanorsnyc"></a>
+            <a class="addthis_button_instagram_follow" addthis:userid="eleanorsnyc"></a>
+        </div>
+         AddThis Follow END -->
+        
       <div id="umbrella">
         <ul>          
           {% if shop.customer_accounts_enabled %}
