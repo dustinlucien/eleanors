@@ -1,66 +1,62 @@
-<!-- Solution brought to you by Caroline Schnapp -->
-<!-- See this: http://wiki.shopify.com/Related_Products -->
- 
 {% assign number_of_related_products_to_show = 3 %}
-{% assign image_size = 'compact' %}
-{% assign heading = 'Other fine products' %}
- 
+{% assign thisproduct = product %}
+{% assign thiscollection = collection %}
+
 {% capture number_of_related_products_to_fetch %}{{ number_of_related_products_to_show | plus: 1 }}{% endcapture %}
- 
-{% if collection == null or collection.handle == 'frontpage' or collection.handle == 'all' %}
+
+{% if collection != null and collection.handle != 'frontpage' and collection.handle != 'all-product' %}
+<section class="diagonal-divider clearfix">
+  <header class="section-details clearfix">
+      <h1 class="section-title">{{ 'Other items we can&apos;t resist' | link_to: collection.url }}</h1>
+  </header>
+  <ul class="product-grid" id="secondary-grid">
+    {% assign current_product_found = false %}
+    {% for product in collection.products limit: number_of_related_products_to_fetch %}
+      {% if product.title == thisproduct %}
+         {% assign current_product_found = true %}
+      {% else %}
+         {% unless current_product_found == false and forloop.last %}
+           <li class="{% cycle '', '', '', 'last-in-row' %}">
+               {% include 'product-grid-item' %}
+           </li>
+         {% endunless %}
+      {% endif %}
+    {% endfor %}
+  </ul>
+</section>    
+{% endif %}
+
+{% assign current_product_found = false %}
 {% assign found_a_collection = false %}
-{% for c in product.collections %}
-  {% if found_a_collection == false and c.handle != 'frontpage' and c.handle != 'all' and c.all_products_count > 1 %}
+
+{% capture cIndex %}{{ 'now' | date: '%S' | times: product.collections.size | divided_by: 60 }}{% endcapture %}
+
+{% for c in thisproduct.collections offset: cIndex %}
+  {% if found_a_collection == false and c.handle != thiscollection.handle and c.handle contains 'related' and c.handle != 'frontpage' and c.handle != 'all-product' and c.all_products_count > 1 %}
     {% assign found_a_collection = true %}
     {% assign collection = c %}
   {% endif %}
 {% endfor %}
-{% endif %}
  
-{% if collection and collection.products_count > 1 %}
-<h3>{{ heading }}</h3>
-<ul class="related-products">
+{% if found_a_collection and collection.products_count > 1 %}
+<section class="diagonal-divider clearfix">
+  <header class="section-details clearfix">
+      <h1 class="section-title">{{ 'Customers who bought this also bought' | link_to: collection.url }}</h1>
+  </header>
+  <ul class="product-grid" id="secondary-grid">
 {% assign current_product_found = false %}
-{% for prod in collection.products limit: number_of_related_products_to_fetch %}
-{% if prod.title == product.title %}
-   {% assign current_product_found = true %}
-{% else %}
-   {% unless current_product_found == false and forloop.last %}
-   <li>
-      <div class="image">
-        <a href="{{ prod.url | within: collection }}" title="{{ prod.title | escape }}">
-        {{ prod.featured_image | product_img_url: image_size | img_tag }}
-        </a>
-      </div>
-      <h4><a href="{{ prod.url }}" title="{{ prod.title | escape }}">{{ prod.title }}</a></h4>
-      <span class="money">{{ prod.price | money }}</span>
-    </li>
-   {% endunless %}
-{% endif %}
+
+{% for product in collection.products limit: number_of_related_products_to_fetch %}
+  {% if product.title == thisproduct.title %}
+     {% assign current_product_found = true %}
+  {% else %}
+     {% unless current_product_found == false and forloop.last %}
+       <li class="{% cycle '', '', '', 'last-in-row' %}">
+           {% include 'product-grid-item' %}
+       </li>
+     {% endunless %}
+  {% endif %}
 {% endfor %}
-</ul>
+  </ul>
+</section>
 {% endif %}
- 
-<style type="text/css">
-.related-products { list-style-type:none }
-{% case image_size %}
-{% when 'small' %}
-.related-products * { font-size:12px; text-align:center; padding:0 }
-.related-products h4  { border:none; margin:10px 0 0 0; line-height:1.3 }
-.related-products div.image { height:100px }
-.related-products li { float:left; width:120px; height:160px; margin-right:20px }
-{% when 'compact' %}
-.related-products * { font-size:13px; text-align:center; padding:0 }
-.related-products h4  { border:none; margin:5px 0 0 0; line-height:1.5 }
-.related-products div.image { height:160px }
-.related-products li { float:left; width:180px; height:220px; margin-right:25px }
-{% when 'medium' %}
-.related-products * { font-size:14px; text-align:center; padding:0 }
-.related-products h4  { border:none; margin:10px 0 0 0; line-height:1.8 }
-.related-products div.image { height:240px }
-.related-products li { float:left; width:260px; height:300px; margin-right:25px }
-{% endcase %}
-.related-products { overflow:hidden }
-.related-products span.money { font-size:0.8em }
-.related-products li:last-child { margin-right:0 }
-</style>
