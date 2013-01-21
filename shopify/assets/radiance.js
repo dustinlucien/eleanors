@@ -162,10 +162,10 @@ $.fn.balanceRowHeight = function(numPerRow) {
 $(window).load( function(){
   if( $('body').hasClass('templateIndex') ){ 
     // homepage has two grids, needs a bit of special treatment:
-    $('#featured-grid').balanceRowHeight(3);
-    $('#secondary-grid').balanceRowHeight(4);
+    // $('#featured-grid').balanceRowHeight(3);
+    // $('#secondary-grid').balanceRowHeight(4);
   } else {
-    $('.product-grid').balanceRowHeight(4);
+    // $('.product-grid').balanceRowHeight(4);
   }
 });
 

@@ -83,28 +83,8 @@
      </div><!-- /#product-gallery -->
  
    </div><!-- /#product -->
-   <div>
-     {% assign: thisproduct = product.title %}
-     {% for collection in product.collections %}
-         {% if collection.title contains "related" %}
-         {% if collection.products.size > 1 %}
-                 <section class="diagonal-divider clearfix">
-                   <header class="section-details clearfix">
-                       <h1 class="section-title">{{ 'Other items we can&apos;t resist' | link_to: collection.url }}</h1>
-                     </header>
-         {% endif %}
-         <ul class="product-grid" id="secondary-grid"> 
-           {% for product in collection.products %}
-           {% unless product.title == thisproduct %}
-                     <li class="{% cycle '', '', '', 'last-in-row' %}">
-                         {% include 'product-grid-item' %}
-                     </li>
-           {% endunless %}
-         {% endfor %}
-         </ul> 
-       {% endif %}
-     {% endfor %}
-   </div><!-- related products -->
+   
+   {% include 'related-products' %}
    
    {% if settings.productspg_featured_collection != empty %}
  
