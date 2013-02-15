@@ -3,7 +3,9 @@
     window._pa = window._pa || {};
     // _pa.orderId = "myUser@email.com"; // OPTIONAL: include your user's email address or order ID
     // _pa.revenue = "19.99"; // OPTIONAL: include dynamic purchase value for the conversion
-    // _pa.onLoadEvent = "sign_up"; // OPTIONAL: name of segment/conversion to be fired on script load
+    {% if template contains 'product' %}
+      _pa.onLoadEvent = "{{ product.vendor | downcase | replace: ' ', '-' }},{{ product.handle }}"; // OPTIONAL: name of segment/conversion to be fired on script load
+    {% endif %}
     var pa = document.createElement('script'); pa.type = 'text/javascript'; pa.async = true;
     pa.src = ('https:' == document.location.protocol ? 'https:' : 'http:') + "//tag.perfectaudience.com/serve/50ac2a995fb9c10002000026.js";
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(pa, s);

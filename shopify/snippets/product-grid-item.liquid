@@ -1,6 +1,7 @@
+
 <div class="product-grid-item " id="product-{{ product.variants.first.id }}">
 
-  <a href="{{ product.url | within: collection }}" class="product-link" title="{{ product.featured_image.alt | escape }}">
+  <a {% if product_recommendation %} onclick="pageTracker._trackEvent('Products', 'Recommendation Click', '{{ product.handle }}');" {% endif %} href="{{ product.url | within: collection }}" class="product-link" title="{{ product.featured_image.alt | escape }}">
     {% if template != 'index' %}
     <span class="product-price">
     {% if product.price_varies %} 
@@ -14,7 +15,6 @@
   </a>
   
   <div class="product-information">
-    <a href="{{ product.url | within: collection }}">{{ product.title }}</a>                    
-  </div>    
-          
-</div>    
+    <a {% if product_recommendation %} onclick="pageTracker._trackEvent('Products', 'Recommendation Click', '{{ product.handle }}');" {% endif %} href="{{ product.url | within: collection }}">{{ product.title }}</a>                    
+  </div>
+</div>

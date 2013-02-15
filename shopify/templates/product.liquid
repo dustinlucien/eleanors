@@ -1,4 +1,3 @@
-
  <div id='le_div_top'></div>
  <div id="col-main">
  
@@ -29,12 +28,12 @@
                  
                <div id="purchase">
                  <p class="price"></p>                                 
-                 <input class="btn" onclick="pageTracker._trackEvent('Products', 'Add To Cart', '{{ product.handle }}');" type="submit" name="add" id="add-to-cart" value="Add to Cart" />
+                 <input class="btn" onclick="pageTracker._trackEvent('Products', 'Add To Cart', '{{ product.handle }}'); _pa.track('cart');" type="submit" name="add" id="add-to-cart" value="Add to Cart" />
                </div>
  
              </div><!-- /.options -->
            </form>
- 
+           
          {% else %}
            <div id="product-actions" class="sold-out">
              <div id="purchase">
@@ -42,16 +41,18 @@
              </div>
            </div>      
          {% endif %}
-       </div><!-- /#product-header -->
- 
-       
-       <div class="description">
-         {{ product.description }}
-         <div id="_willet_buttons_app" button_count="true">
+         {% include 'willet-shopconnection' %}
+         <div id="_willet_buttons_app" data-count="true" data-spacing="0" data-padding="0" style="display:none">
              <div>Facebook</div>
              <div>Pinterest</div>
              <div>Svpply</div>
+             <div>Twitter</div>
          </div>
+         
+       </div><!-- /#product-header -->
+       
+       <div class="description">
+         {{ product.description }}
        </div>            
  
      </div><!-- /#product-information -->
@@ -62,7 +63,7 @@
          {% if settings.main_image_display == 'Lightbox' %}
          <a href="{{ product.featured_image | product_img_url: 'original' }}" title="{{ product.featured_image.alt | escape }}" rel="fancybox">
          {% endif %}     
-           <img style="max-width:303px" src="{{ product.featured_image | product_img_url: 'large' }}" alt="{{ product.title | escape }}" id="large-thumb" />
+           <img style="max-width:303px" src="{{ product.featured_image | product_img_url: 'large' }}" alt="{{ product.featured_image.alt | escape }}" id="large-thumb" />
          {% if settings.main_image_display == 'Lightbox' %}
          </a>
          {% endif %}
@@ -72,7 +73,7 @@
          {% for image in product.images %}
          {% unless forloop.first and settings.main_image_display == 'Lightbox' %}
          <li>
-           <a{% if settings.main_image_display == 'Lightbox' %} rel="fancybox"{% endif %} class="gallery" href="{{ image | product_img_url: 'original' }}" title="{{ image.alt | escape }}">
+           <a{% if settings.main_image_display == 'Lightbox' %} rel="fancybox"{% endif %} class="gallery" href="{{ image | product_img_url: 'original' }}" onclick="pageTracker._trackEvent('Products', 'Thumbnail View', '{{ product.handle }}', '{{ image.position }}');" title="{{ image.alt | escape }}">
              <img src="{{ image | product_img_url: 'thumb' }}" alt="{{ image.alt | escape }}" />
            </a>
          </li>

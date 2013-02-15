@@ -244,7 +244,11 @@ body { text-align: center; }
   color: {{settings.logo_hover_colour}};
   } 
 
-
+#free-shipping {
+  position: absolute;
+  left: 7px;
+  top: 116px;
+}
   
 /** 
  * Top Menu 
@@ -354,6 +358,9 @@ body { text-align: center; }
 #header-search{ 
   float: right;
   margin: 0;
+  position:absolute;
+  top:125px;
+  right:5px;
   } 
 #header-search #top-search-input{ 
   width: 175px;
@@ -495,6 +502,10 @@ body{ border-top: solid 4px {{settings.cart_bg_colour}}; }
   {% endif %}
   margin: 0 0 20px 0;
   }
+
+.products-prominent {
+  height: 450px;
+}
 
 #page-title{
   font-size: 22px;
@@ -1385,11 +1396,10 @@ col.checkout-delete{ width: 80px; }
   }
 
 #footer-left{ 
-  width: 520px;
+  width: 650px;
   float: left;
   }
 #footer-right{
-  width: 350px;
   float: right;
   }
 

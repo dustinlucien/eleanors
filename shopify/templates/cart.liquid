@@ -41,9 +41,9 @@
             </td>
             <td> <a href="{{ item.product.url }}">{{ item.title }}</a></td>
             <td>{{ item.price | money }}</td>
-            <td> <input class="text quantity" type="text" size="4" id="updates_{{ item.id }}" name="updates[{{ item.id }}]" value="{{ item.quantity }}" class="replace" /> </td>
+            <td><input class="text quantity" type="text" size="4" id="updates_{{ item.id }}" name="updates[{{ item.id }}]" value="{{ item.quantity }}" class="replace" /> </td>
             <td>{{ item.line_price | money }}</td>
-            <td><a class="btn remove-from-cart" href="/cart/change?id={{ item.id }}&quantity=0">Remove</a></td>
+            <td><a onclick="pageTracker._trackEvent('Cart', 'Remove From Cart', '{{ item.product.handle }}');" class="btn remove-from-cart" href="/cart/change?id={{ item.id }}&quantity=0">Remove</a></td>
           </tr>
           {% endfor %}
         </tbody>
@@ -51,7 +51,7 @@
         <tfoot>
           <tr class="bottom-summary">
             <td colspan="3"></td>
-            <td class="update-quantities"><input onclick="pageTracker._trackEvent('Cart', 'Update', '{{ cart.total_price | money }}');" type="submit" id="update-cart" class="btn" name="update" value="Update quantities" /></td>
+            <td class="update-quantities"><input onclick="pageTracker._trackEvent('Cart', 'Update Quantity', '{{ item.product.handle }}', '{{ item.quantity }}');" type="submit" id="update-cart" class="btn" name="update" value="Update quantities" /></td>
             <td class="subtotal">{{ cart.total_price | money }}</td>
             <td>&nbsp;</td>
           </tr>
@@ -66,7 +66,7 @@
       {% endif %}
 
       <div id="checkout-proceed">
-        <input class="btn-reversed btn" onclick="pageTracker._trackEvent('Cart', 'Checkout', 'Native Checkout');" type="submit" id="update-cart" name="checkout" value="Proceed to Checkout" />
+        <input class="btn-reversed btn" onclick="pageTracker._trackEvent('Cart', 'Checkout', '{{ cart.total_price }}', '{{ cart.item_count }}');" type="submit" id="update-cart" name="checkout" value="Proceed to Checkout" />
         {% if additional_checkout_buttons %}
         <div id="additional-checkout-buttons">
           <span id="additional-checkout-buttons-label">Or check out using:</span>

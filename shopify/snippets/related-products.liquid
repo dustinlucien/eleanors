@@ -1,6 +1,7 @@
 {% assign number_of_related_products_to_show = 3 %}
 {% assign thisproduct = product %}
 {% assign thiscollection = collection %}
+{% assign product_recommendation = true %}
 
 {% capture number_of_related_products_to_fetch %}{{ number_of_related_products_to_show | plus: 1 }}{% endcapture %}
 
@@ -10,9 +11,11 @@
       <h1 class="section-title">{{ 'Other items we can&apos;t resist' | link_to: collection.url }}</h1>
   </header>
   <ul class="product-grid" id="secondary-grid">
+    {% capture cIndex %}{{ 'now' | date: '%S' | times: product.collections.size | divided_by: 60 }}{% endcapture %}
+    
     {% assign current_product_found = false %}
-    {% for product in collection.products limit: number_of_related_products_to_fetch %}
-      {% if product.title == thisproduct %}
+    {% for product in collection.products limit: number_of_related_products_to_fetch offset: cIndex %}
+      {% if product.title == thisproduct.title %}
          {% assign current_product_found = true %}
       {% else %}
          {% unless current_product_found == false and forloop.last %}
