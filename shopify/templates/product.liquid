@@ -28,7 +28,7 @@
                  
                <div id="purchase">
                  <p class="price"></p>                                 
-                 <input class="btn" onclick="pageTracker._trackEvent('Products', 'Add To Cart', '{{ product.handle }}'); _pa.track('cart');" type="submit" name="add" id="add-to-cart" value="Add to Cart" />
+                 <input class="btn" onclick="pageTracker._trackEvent('Products', 'Add To Cart', '{{ product.handle }}'); _pa.track('cart'); mixpanel.track('Add to Cart', {'product':'{{ product.handle }}'});" type="submit" name="add" id="add-to-cart" value="Add to Cart" />
                </div>
  
              </div><!-- /.options -->
@@ -85,9 +85,9 @@
  
    </div><!-- /#product -->
    
-   <div>
+   <div><!-- #related-product -->
     {% include 'related-products' %}
-   </div>
+   </div><!-- /#related-product -->
    
    {% if settings.productspg_featured_collection != empty %}
  

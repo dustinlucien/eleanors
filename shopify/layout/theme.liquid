@@ -73,11 +73,13 @@
     /* Add your own MailChimp form style overrides in your site stylesheet or in this style block.
 	   We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
   </style>
+  
+  {% include 'mixpanel' %}
+  
 </head>
 
 <body class="{% if customer %}customer-logged-in {% endif %}template{{ template | split: '.' | first | camelize }}" {% if template contains 'product' %} onload="javascript:pageTracker._trackEvent('Products', 'View', '{{ product.handle }}');" {% endif %}>
   
-    
   <div class="wrapper">
     
     <!-- Header -->
@@ -129,7 +131,8 @@ style="position:absolute; top:32px; right:0px;"></div>
           </li>
           {% endfor %}
         </ul>
-
+        
+        
         {% if settings.show_header_search %}
         <form id="header-search" action="/search" method="get">
           <label for="top-search-input" class="visuallyhidden">Search</label>
@@ -139,6 +142,8 @@ style="position:absolute; top:32px; right:0px;"></div>
         {% endif %}
       </nav>
 
+      {% include 'click-to-call' %}
+      
       {% include 'free-shipping' %}
       
       <div id="umbrella">

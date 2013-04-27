@@ -722,7 +722,7 @@
     "carousel_item_1_link": "http://www.eleanorsnyc.com/collections/best-sellers",
     "show_carousel_item_2": true,
     "carousel_item_2_link": "http://www.eleanorsnyc.com/pages/frequently-asked-questions",
-    "show_carousel_item_3": true,
+    "show_carousel_item_3": false,
     "carousel_item_3_link": "http://www.eleanorsnyc.com/collections/iva-jean",
     "show_carousel_item_4": true,
     "carousel_item_4_link": "http://www.eleanorsnyc.com/collections/bold-bright",

@@ -1,4 +1,3 @@
-
 <div class="product-grid-item " id="product-{{ product.variants.first.id }}">
 
   <a {% if product_recommendation %} onclick="pageTracker._trackEvent('Products', 'Recommendation Click', '{{ product.handle }}');" {% endif %} href="{{ product.url | within: collection }}" class="product-link" title="{{ product.featured_image.alt | escape }}">
