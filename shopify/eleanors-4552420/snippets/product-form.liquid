@@ -1,53 +1,51 @@
-{% if product.available %}    
-	
+{% if product.available %}
+
     <form action="/cart/add" method="post">
-        {% if product.variants.size > 1 %}      
+        {% if product.variants.size > 1 %}
             {% if product.variants.size > 1 %}
             <div id="swatches">{% include 'swatches' %}</div>
-            {% endif %}       
-        <div id="product-variants">        
+            {% endif %}
+        <div id="product-variants">
               <select id="product-select" name='id'>
                 {% for variant in product.variants %}
                   <option value="{{ variant.id }}">{{ variant.title }}></option>
                 {% endfor %}
               </select>
-        </div>   
-            {% else %}  
+        </div>
+            {% else %}
         <div class="what-is-it">
             {% if product.options.first != 'Title' %}
             <label>{{ product.options.first }}:</label>{% for variant in product.variants %}<span class="it-is">{{ variant.option1 | escape }}</span>{% endfor %}
             {% endif %}
         </div>
-        <div id="product-variants"></div><!-- product variants -->  
+        <div id="product-variants"></div><!-- product variants -->
             <input  type="hidden" id="{{ variant.id }}" name="id" value="{{ product.variants[0].id }}" />
 
         {% endif %}
 
-    <input type="submit" name="button" id="add" value="Add to Cart" />
-
-		{% if settings.popups %}
-		<ul id="popups">
-			<li class="first"><a href="#pop-one" class="fancybox">{{ settings.popup-one-title }}</a></li>
-			{% if settings.popup-2 %}<li><a href="#pop-two" class="fancybox">{{ settings.popup-two-title }}</a></li>{% endif %}
-			{% if settings.popup-3 %}<li><a href="#pop-three" class="fancybox">{{ settings.popup-three-title }}</a></li>{% endif %}
-			{% if settings.popup-4 %}<li class="last"><a href="#pop-four" class="fancybox">{{ settings.popup-four-title }}</a></li>{% endif %}
-		</ul>
-		<div id="pop-one" style="display: none">{{ pages.[settings.popup-one].content }}</div>
-		<div id="pop-two" style="display: none">{{ pages.[settings.popup-two].content }}</div>
-		<div id="pop-three" style="display: none">{{ pages.[settings.popup-three].content }}</div>
-		<div id="pop-four" style="display: none">{% include 'question' %}</div>
-		{% endif %}
-            
-          
+      <input type="submit" name="button" id="add" value="Add to Cart" />
     </form>
+
+    {% if settings.popups %}
+      <ul id="popups">
+        <li class="first"><a href="#pop-one" class="fancybox">{{ settings.popup-one-title }}</a></li>
+        {% if settings.popup-2 %}<li><a href="#pop-two" class="fancybox">{{ settings.popup-two-title }}</a></li>{% endif %}
+        {% if settings.popup-3 %}<li><a href="#pop-three" class="fancybox">{{ settings.popup-three-title }}</a></li>{% endif %}
+        {% if settings.popup-4 %}<li class="last"><a href="#pop-four" class="fancybox">{{ settings.popup-four-title }}</a></li>{% endif %}
+      </ul>
+      <div id="pop-one" style="display: none">{{ pages.[settings.popup-one].content }}</div>
+      <div id="pop-two" style="display: none">{{ pages.[settings.popup-two].content }}</div>
+      <div id="pop-three" style="display: none">{{ pages.[settings.popup-three].content }}</div>
+      <div id="pop-four" style="display: none">{% include 'question' %}</div>
+    {% endif %}
   {% else %}
-  
+
   <div class="sorry">
         <p>This product is sold out</p>
   </div>
-    
+
   {% endif %}
-  
+
 <script>
 jQuery(function() {
 
@@ -62,7 +60,7 @@ jQuery(function() {
       {% assign look_for_image_match = true %}
       {% assign option_index = forloop.index0 %}
     {% endif %}
-  {% endfor %} 
+  {% endfor %}
   Shopify.doNotTriggerClickOnThumb = false;
 
   var selectCallback = function(variant, selector) {
@@ -80,8 +78,8 @@ jQuery(function() {
 
     } else {
       // variant doesn't exist or is sold out
-      var message = variant ? "Sold Out" : "Unavailable";  
-      jQuery('#add').val(message).addClass('disabled').attr('disabled', 'disabled').fadeTo(200,0.5);      // set add-to-cart button to unavailable class and disable button 
+      var message = variant ? "Sold Out" : "Unavailable";
+      jQuery('#add').val(message).addClass('disabled').attr('disabled', 'disabled').fadeTo(200,0.5);      // set add-to-cart button to unavailable class and disable button
     }
 
   };
@@ -117,11 +115,11 @@ jQuery(function() {
   // If a Color is selected, show the matching product image.
   jQuery('.single-option-selector:eq({{ option_index }})').bind('change', function() {
     if (!Shopify.doNotTriggerClickOnThumb) {
-      jQuery('#product-photo-thumbs img[alt="' + jQuery(this).val() + '"]:eq(0)').trigger('click');      
+      jQuery('#product-photo-thumbs img[alt="' + jQuery(this).val() + '"]:eq(0)').trigger('click');
     }
     Shopify.doNotTriggerClickOnThumb = false;
     return true;
-  });  
+  });
   // If an image is shown in Main View, auto-select the corresponding Color option.
   jQuery('#product-photo-thumbs img').bind('click', function() {
    var color = jQuery(this).attr('alt');

@@ -135,7 +135,7 @@
 
 	/* !Mobile, 3 column, 300 + 480 (max 740) */
 	@media screen and (max-width: 740px) {
-		.gridlock .row [class*="desktop-push-"], 
+		.gridlock .row [class*="desktop-push-"],
 		.gridlock .row [class*="tablet-push-"] { margin-left: 1.0416666666666667%; margin-right: 1.0416666666666667%; }
 
 		.gridlock .row .mobile-1 { width: 31.25%; }
@@ -163,15 +163,15 @@
 
 
 
-body {	
+body {
     color: {{ settings.text_color }};
     background: {{ settings.background }};
-    font-size: {{ settings.font-size }}; 
-    font-family:{{ settings.font }};	
-	line-height: 1.6em; 
-	-webkit-text-size-adjust: none;	
+    font-size: {{ settings.font-size }};
+    font-family:{{ settings.font }};
+	line-height: 1.6em;
+	-webkit-text-size-adjust: none;
 	}
-	
+
 img { max-width: 100%; border: 0; }
 
 h1, h2, h3, h4, h5, h6 {
@@ -238,7 +238,7 @@ hr { background:{{ settings.dotted_color }}; border:none; color:{{ settings.dott
 	input[type="submit"],
 	input[type="reset"],
 	input[type="button"] {
-	  background: {{ settings.button_color }}; 
+	  background: {{ settings.button_color }};
 	  border: 1px solid {{ settings.button_color }};
 	  -moz-border-radius: 3px;
 	  -webkit-border-radius: 3px;
@@ -252,7 +252,7 @@ hr { background:{{ settings.dotted_color }}; border:none; color:{{ settings.dott
 	  margin-bottom: 20px;
 	  line-height: normal;
 	  padding: 8px 10px;
-	  font-family: {{ settings.font }}; 
+	  font-family: {{ settings.font }};
       -webkit-appearance: none; }
 
 	.button:hover,
@@ -281,7 +281,7 @@ hr { background:{{ settings.dotted_color }}; border:none; color:{{ settings.dott
     border: 0;
     padding: 0;
 	}
-    
+
 
 /* #Forms
 ================================================== */
@@ -530,7 +530,7 @@ ul#sortme li { }
 ul#sortme p {  }
 .coll-filter {  }
 
-span.customSelect { 
+span.customSelect {
     font:12px sans-serif;
     background:#fff url({{ 'select.png' | asset_url }}) right center no-repeat;
     border:1px solid #ddd;
@@ -563,7 +563,7 @@ ul#product-loop li { float: left; display: inline; {% if settings.product-border
 	cursor: pointer;
 	text-align: center;
 	border: 1px solid #ccc;
-	z-index: 10000;	
+	z-index: 10000;
 }
 
 #product-info h3 { font-size: 12px; margin-bottom: 1em; }
@@ -599,7 +599,7 @@ ul#thumbs li { max-width: 69px; }
 
 /*set a border on the images to prevent shifting*/
  ul#thumbs img { border: 1px solid transparent; }
- 
+
  /*Change the colour*/
  .active img {border:1px solid #ccc !important;}
 
@@ -608,7 +608,7 @@ ul#thumbs li { max-width: 69px; }
 #add { margin-top: 20px; }
 
 #product-description { border-right: 1px solid {{ settings.dotted_color }}; padding-right: 20px; }
-#product-description form { border-top: 1px solid {{ settings.dotted_color }}; border-bottom: 1px solid {{ settings.dotted_color }}; padding-bottom: 10px; }
+#product-description form { border-top: 1px solid {{ settings.dotted_color }};}
 
 #related h4 { margin-bottom: 20px; }
 ul.related-products { list-style-type:none; }
@@ -618,7 +618,7 @@ ul.related-products { list-style-type:none; }
 .related-products li { float:left; margin: 0 0 20px; }
 .related-products {  }
 
-ul#popups { margin: 10px 0 20px; list-style-type: none; }
+ul#popups { margin: 10px 0 20px; padding-bottom: 30px; border-bottom: 1px solid {{ settings.dotted_color }}; list-style-type: none; }
 ul#popups li { display: inline; margin-right 10px; border-right: 1px solid {{ settings.dotted_color }}; padding-right: 10px; margin-left: 10px; }
 ul#popups li.first { margin-left: 0; }
 ul#popups li.last { border-right: 0; }
@@ -634,26 +634,26 @@ ul#popups li.last { border-right: 0; }
 #cartform { margin-top: 20px; }
 .cart-item { display: table-cell; }
 .cart-image { display: inline-block; margin-right: 10px; }
-.cart-image img { vertical-align: middle; } 
+.cart-image img { vertical-align: middle; }
 .cart-title { display: inline-block; }
 
-table { 
-  width: 100%; 
-  border-collapse: collapse; 
+table {
+  width: 100%;
+  border-collapse: collapse;
 }
 
 
 /* Zebra striping */
-tr:nth-of-type(odd) { 
+tr:nth-of-type(odd) {
 }
-th { 
-  background: #f9f9f9; 
-  font-weight: normal; 
+th {
+  background: #f9f9f9;
+  font-weight: normal;
 }
-td, th { 
-  padding: 10px; 
-  border: 1px solid #eee; 
-  text-align: left; 
+td, th {
+  padding: 10px;
+  border: 1px solid #eee;
+  text-align: left;
 }
 
 #basket-right { text-align: right; float: right; }
@@ -704,7 +704,7 @@ dd { margin-left: 0; }
 #admin_header { margin-bottom: 30px; }
 .view_address p { margin: 0; }
 #customer_detail p { margin: 0; }
- 
+
 /* =============== */
 /* = Footer = */
 /* =============== */
