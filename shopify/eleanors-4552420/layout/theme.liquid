@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--><html lang="en"> <!--<![endif]-->
+<head>
+
+	<meta charset="utf-8" />
+  	<meta name="viewport" content="width=device-width" />
+  
+    <!-- Basic Page Needs
+  ================================================== -->
+    
+    {% if template == 'index' %}
+     <title>{{ shop.name }} | {{ shop.description }}</title>
+    {% elsif template == '404' %}
+      <title>Page Not Found | {{ shop.name }}</title>
+    {% else %}
+     <title>{{ page_title }} | {{ shop.name }}</title>
+    {% endif %}
+    {% assign maxmeta = 155 %}
+    {% if template contains 'product' %}
+     <meta name="description" content="{{ product.description | strip_html | strip_newlines | truncate: maxmeta | escape }}" />
+    {% elsif template contains 'page' %}
+      <meta name="description" content="{{ page.content | strip_html | strip_newlines | truncate: maxmeta | escape }}" />
+    {% elsif template == 'index' and shop.description != '' %}
+      <meta name="description" content="{{ shop.description | strip_html | strip_newlines | truncate: maxmeta | escape}}" />
+    {% endif %}
+	<link rel="canonical" href="{{ canonical_url }}" />
+	
+    <!-- CSS
+  ================================================== -->
+    
+    {{ 'stylesheet.css' | asset_url | stylesheet_tag }}
+    {{ 'flexslider.css' | asset_url | stylesheet_tag }}
+	{{ 'queries.css' | asset_url | stylesheet_tag }}
+	{{ 'jquery.fancybox.css' | asset_url | stylesheet_tag }}
+	    
+    <!-- JS
+  ================================================== -->
+  
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	{{ 'theme.js' | asset_url | script_tag }}
+    {{ 'option_selection.js' | asset_url | script_tag }}
+    {{ 'jquery.flexslider.js' | asset_url | script_tag }}
+	{{ 'select.js' | asset_url | script_tag }}
+	{{ 'jquery.fancybox.pack.js' | asset_url | script_tag }}
+	{{ 'jquery.mousewheel-3.0.6.pack.js' | asset_url | script_tag }}
+	{{ 'jquery.easing.1.3.js' | asset_url | script_tag }}
+  {{ 'jquery.placeholder.js' | asset_url | script_tag }}
+	
+	{% if template == 'product' %}
+	{{ 'jquery.elevateZoom-2.5.5.min.js' | asset_url | script_tag }}
+	{% endif %}
+
+	{% if template == 'index' %}
+	{{ 'jquery.instagram.js' | asset_url | script_tag }}
+	{% endif %}
+
+	<!--[if lt IE 9]>
+		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<!-- Favicons
+	================================================== -->
+	
+	<link rel="shortcut icon" href="{{ 'favicon.png' | asset_url }}">
+
+    {% if template contains 'customers' %}
+    {{ "shopify_common.js" | shopify_asset_url | script_tag }}
+    {{ "customer_area.js"  | shopify_asset_url | script_tag }}
+    {% endif %}
+    
+    {{ content_for_header }}
+    
+</head>
+
+<body class="gridlock">
+	<div id="wrapper" class="container">
+	
+	<div id="top-row" class="row">
+		
+		<!-- Start top Row -->	
+
+    	<ul id="cart" class="desktop-6 desktop-push-6 tablet-6 mobile-3">
+		
+    		{% if shop.customer_accounts_enabled %}
+    		<li>
+        		{% if customer  %}
+        		<a href="/account">My Account</a> {{ "| Logout" | customer_logout_link }} 
+        		{% else %}
+        		{{ "Sign in" | customer_login_link }} or {{ 'Create an Account' | customer_register_link }}
+        		{% endif %}
+    		</li>
+    		{% endif %}
+    		<li>
+    			<a href="/cart">My Cart: ({{ cart.item_count }})</a>
+    		</li>
+    	</ul>
+	</div>
+
+		<!-- End Top Row -->
+		
+	<div id="header" class="row">
+		
+    	<div id="logo" class="desktop-3 tablet-6 mobile-3">
+        	<h1>
+				{% if settings.use_logo_image %}
+          			<a href="/"><img src="{{ 'logo.png' | asset_url }}" alt="{{ shop.name }}" style="border: 0;"/></a>
+          		{% else %}
+          			<a href="/">{{ shop.name }}</a>
+          		{% endif %}
+			</h1>
+    	</div>  
+    
+    	<div id="navigation" class="desktop-9 omega tablet-6 mobile-3">
+          <nav class="primary">
+       		<ul id="nav">
+        		{% for link in linklists.main-menu.links %}
+           		<li>{{ link.title | link_to: link.url }}
+           		{% capture child_list_handle %}{{ link.title | handleize }}{% endcapture %}
+    				{% if linklists[child_list_handle] and linklists[child_list_handle].links.size > 0 %}
+    				<span class="down">&#8595;</span>
+    				<ul>
+      					{% for l in linklists[child_list_handle].links %}
+      					<li><a href="{{ l.url }}">{{ l.title }}</a></li>
+      					{% endfor %}
+    				</ul>
+    				{% endif %}
+           		</li>
+    			{% endfor %}
+				<li class="search">
+					<form action="/search" method="get">
+				    	<input type="text" name="q" id="q" placeholder="search..." />
+				    </form>
+				</li>
+        	</ul>
+          </nav>
+                
+    	</div>
+
+      
+<script type="text/javascript">
+$(document).ready(function() {
+
+    //build dropdown
+    $("<select />").appendTo("#navigation ul#nav");
+    
+    // Create default option "Go to..."
+    $("<option />", {
+       "selected": "selected",
+	   "value"   : "",
+	   "text"    : "Go to..."
+	}).appendTo("ul#nav select");	
+	
+	// Populate dropdowns with the first menu items
+	$("ul#nav li a").each(function() {
+	 	var el = $(this);
+	 	$("<option />", {
+	     	"value"   : el.attr("href"),
+	    	"text"    : el.text()
+	 	}).appendTo("ul#nav select");
+	});
+	
+	//make responsive dropdown menu actually work			
+  	$("ul#nav select").change(function() {
+    	window.location = $(this).find("option:selected").val();
+  	});
+
+});	
+</script>          
+</div>      
+      
+	
+	
+	
+	
+	
+	<!-- End Header -->
+    
+    <div id="content" class="row">
+      
+      		<div id="nav-border" class="desktop-12 tablet-6 mobile-3"></div>
+	
+	<!-- Hide Breadcrumbs from homepage -->
+	{% if template != "index" %}
+		{% if settings.breadcrumb %}
+			{% include 'breadcrumb' %}	
+		{% endif %}
+	{% endif %}
+	
+	{% if template == 'list-collections' %}
+    	{% include 'collection-listing' %}
+    {% else %}
+		{{ content_for_layout }}
+    {% endif %}
+    
+    </div> 
+
+	<!-- End Content -->
+	
+	<div id="footer" class="row">
+		<div id="footer-border" class="desktop-12 tablet-6 mobile-3">
+		</div>
+		     <div>
+    {{ 'featured-in-runner.png' | asset_url | img_tag }}
+</div>
+		<ul class="desktop-3 mobile-3">
+          <h4>{{ settings.footer-1-title }}</h4>
+			{% for link in linklists.[settings.footer-1].links %}
+			    <li>{{ link.title | link_to: link.url }}</li>
+			{% endfor %}
+		</ul>
+		<ul class="desktop-3 mobile-3">
+			<h4>{{ settings.footer-2-title }}</h4>
+			{% for link in linklists.[settings.footer-2].links %}
+			    <li>{{ link.title | link_to: link.url }}</li>
+			{% endfor %}
+		</ul>
+		<ul class="desktop-3 mobile-3">
+			<h4>{{ settings.footer-3-title }}</h4>
+			{% for link in linklists.[settings.footer-3].links %}
+			    <li>{{ link.title | link_to: link.url }}</li>
+			{% endfor %}
+		</ul>
+		<ul class="desktop-3 mobile-3">
+			<h4>{{ settings.footer-4-title }}</h4>
+			<li>{% include 'mailing' %}
+			<li class="icons">
+				{% if settings.show_facebook %}<a href="{{ settings.facebook_url }}" target="_blank"><img src="{{ 'Facebook.jpg' | asset_url }}" width="32px"></a>{% endif %}
+				{% if settings.show_twitter %}<a href="http://www.twitter.com/{{ settings.twittername }}" target="_blank"><img src="{{ 'Twitter.jpg' | asset_url }}" width="32px"></a>{% endif %}
+				{% if settings.show_pinterest %} <a href="{{ settings.pinterest_url }}" target="_blank"><img src="{{ 'Pinterest.jpg' | asset_url }}" width="32px"></a>{% endif %}
+				{% if settings.show_tumblr %} <a href="{{ settings.tumblr_url }}" target="_blank"><img src="{{ 'Tumblr.jpg' | asset_url }}" width="32px"></a>{% endif %}
+				{% if settings.show_youtube %} <a href="{{ settings.youtube_url }}" target="_blank"><img src="{{ 'YouTube.jpg' | asset_url }}" width="32px"></a>{% endif %}
+				{% if settings.show_googleplus %} <a href="{{ settings.googleplus_url }}" target="_blank"><img src="{{ 'GooglePlus.jpg' | asset_url }}" width="32px"></a>{% endif %}
+				{% if settings.show_vimeo %} <a href="{{ settings.vimeo_url }}" target="_blank"><img src="{{ 'Vimeo.jpg' | asset_url }}" width="32px"></a>{% endif %}
+				{% if settings.show_rss %} <a href="{{ shop.url }}/blogs/{{ settings.homepage-blog }}.atom" target="_blank"><img src="{{ 'Rss.jpg' | asset_url }}" width="32px"></a>{% endif %}
+				{% if settings.show_blogger %} <a href="{{ settings.blogger_url }}" target="_blank"><img src="{{ 'Blogger.jpg' | asset_url }}" width="32px"></a>{% endif %}
+				{% if settings.show_wordpress %} <a href="{{ settings.wordpress_url }}" target="_blank"><img src="{{ 'Wordpress.jpg' | asset_url }}" width="32px"></a>{% endif %}
+			</li>
+		</ul>
+		
+		<div id="payment" class="desktop-12 mobile-3">
+		    {% if settings.american_express %}<img src="{{ 'amex.png' | asset_url }}"/>{% endif %}
+            {% if settings.dankort %}<img src="{{ 'dankort.png' | asset_url }}"/>{% endif %}
+            {% if settings.diners %}<img src="{{ 'diners.png' | asset_url }}"/>{% endif %}
+            {% if settings.discover %}<img src="{{ 'discover.png' | asset_url }}"/>{% endif %}
+            {% if settings.forbru %}<img src="{{ 'forbru.png' | asset_url }}"/>{% endif %}
+            {% if settings.google %}<img src="{{ 'googlecheckout.png' | asset_url }}">{% endif %}
+            {% if settings.jcb %}<img src="{{ 'jcb.png' | asset_url }}">{% endif %}
+            {% if settings.maestro %}<img src="{{ 'maestro.png' | asset_url }}"/>{% endif %}
+            {% if settings.mastercard %}<img src="{{ 'mastercard.png' | asset_url }}"/>{% endif %}
+            {% if settings.paypal %}<img src="{{ 'paypa.png' | asset_url }}"/>{% endif %}  
+            {% if settings.solo %}<img src="{{ 'solo.png' | asset_url }}"/>{% endif %}  
+            {% if settings.visa %}<img src="{{ 'visa.png' | asset_url }}"/>{% endif %}	
+<br />
+		</div>
+		
+	</div>
+
+</div>
+
+<!-- Begin Recently Viewed Products -->
+<script type="text/javascript" charset="utf-8">
+//<![CDATA[
+
+// Including jQuery conditionnally.
+if (typeof jQuery === 'undefined') {
+  document.write({{ "http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" | script_tag | json }});
+  document.write('<script type="text/javascript">jQuery.noConflict();<\/script>');
+}
+
+// Including api.jquery.js conditionnally.
+if (typeof Shopify.resizeImage === 'undefined') {
+  document.write({{ "api.jquery.js" | shopify_asset_url | script_tag | json }});
+}
+
+//]]>
+</script>
+
+{{ 'http://ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js' | script_tag }}
+{{ 'jquery.products.min.js' | asset_url | script_tag }}
+
+{% if template contains 'product' %}
+
+<script type="text/javascript" charset="utf-8">
+//<![CDATA[
+
+Shopify.Products.recordRecentlyViewed();
+
+//]]>
+  
+$('input, textarea').placeholder();
+  
+</script>
+
+{% endif %}
+{% include 'newsletter-popup' %}
+{% include 'external-javascript' %}
+
+<!-- End Recently Viewed Products -->
+</body>
+</html>

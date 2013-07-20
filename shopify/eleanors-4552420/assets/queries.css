@@ -1,0 +1,130 @@
+/*
+* Mr Parker Shopify Theme
+* Copyright 2013, Underground Media
+* www.undergroundmedia.co.uk
+* Sitting in an English garden waiting for the sun
+*/
+
+
+/* #Media Queries
+================================================== */
+
+
+	/* Smaller than standard 960 (devices and browsers) */
+	@media only screen and (max-width: 959px) {
+
+    #left-images img, #right-images img { margin-bottom: 16px! important; }
+
+
+    }
+
+	/* Tablet Portrait size to standard 960 (devices and browsers) */
+	@media only screen and (min-width: 768px) and (max-width: 959px) {
+
+    #left-images img, #right-images img { margin-bottom: 10px! important; }
+
+
+    #navigation {
+    clear: left;
+    position: relative;
+    left: 0;
+    bottom: 0;
+    }
+  
+  	ul#nav li a { padding: 0 20px 0 0; }
+  	.down { display: none; }
+		
+	}
+    
+    
+    /* 800px Width Table Screen size */
+    @media screen and (max-width: 800px) { 
+	
+    }
+
+	/* All Mobile Sizes (devices and browser) */
+	@media only screen and (max-width: 767px) {
+	ul#featured-posts li { margin-bottom: 20px; clear: left;  }
+	#logo { margin-bottom: 10px; text-align: center; }
+	ul#cart { text-align: center; margin-bottom: 10px; }
+	.search { width: 100%; }
+	#q { width: 100%; }
+    #footer ul { text-align: center; margin-bottom: 20px; }
+    #mce-EMAIL { width: 100%; }
+    .button { width: 100%; }
+	#navigation { position: initial! important; }
+	#left-images img.last, #right-images img.last { margin-bottom: 20px! important; }
+  	nav.primary select { display: block! important; height: 25px; width: 100%; } 
+    ul#nav { display: none! important; } 
+	#product-photos { display: none; }
+	#mobile-product { display: block! important; }
+	#product-description { padding: 0! important; border: 0! important; }
+	#related { display: none! important; }
+	#looked-at { display: none! important; }
+    #add { width: 100%; }
+    input { width: 100%; min-width: 100%; }
+    #update-cart, #checkout { width: 100%; }
+       
+    }
+    
+    
+/* 
+Max width before this PARTICULAR table gets nasty
+This query will take effect for any screen smaller than 760px
+and also iPads specifically.
+*/
+@media 
+only screen and (max-width: 760px),
+(min-device-width: 768px) and (max-device-width: 1024px)  {
+
+    /* Force table to not be like tables anymore */
+	table, thead, tbody, th, td, tr { 
+		display: block; 
+	}
+	
+	/* Hide table headers (but not display: none;, for accessibility) */
+	thead tr { 
+		position: absolute;
+		top: -9999px;
+		left: -9999px;
+	}
+	
+	tr { border: 1px solid #ccc; margin: 20px 0;}
+	
+	td { 
+		/* Behave  like a "row" */
+		border: none;
+		border-bottom: 1px solid #eee; 
+		position: relative;
+		padding: 10px; 
+        text-align: center;
+	}
+    
+    
+    #shopping-cart table input { margin-top: 20px! important; }
+    
+    .cart-item { display: block; }
+    .cart-image, .cart-title { display: block; width: 100%;}
+    
+    #basket-right h4 { font-weight: normal; text-align: center; margin: 20px 0 30px; }
+
+    #shopping-cart table td:nth-of-type(2):before { content: "Item Price"; }
+    #shopping-cart table td:nth-of-type(3):before { content: "Quantity"; }
+    #shopping-cart table td:nth-of-type(4):before { content: "Remove"; }
+    #shopping-cart table td:nth-of-type(5):before { content: "Total"; }
+
+
+}    
+
+	/* Mobile Landscape Size to Tablet Portrait (devices and browsers) */
+	@media only screen and (min-width: 480px) and (max-width: 767px) {
+
+    }
+
+	/* Mobile Portrait Size to Mobile Landscape Size (devices and browsers) */
+	@media only screen and (max-width: 479px) {
+        
+    ul#cart li { clear: left; display: block; }
+
+    }
+

@@ -1,0 +1,51 @@
+<!--{% form 'contact' %}-->
+
+<form method='post' action='/contact' class='contact-form' accept-charset='UTF-8'><input name='form_type' type='hidden' value='contact'/><input name="utf8" type="hidden" value="✓">
+
+{% if form.posted_successfully? %}
+<div class="successForm feedback">
+  <p>Thanks for contacting us! We'll get back to you as soon as possible.</p>
+</div>
+{% endif %}
+
+{% if form.errors %}
+<div class="errorForm feedback">
+  <!-- {{ form.errors.size }} or {{ form.errors | size }} -->
+  <p>Oops, sorry. We were unable to submit your inquiry because it contained {{ form.errors | size | pluralize: 'an error', 'a few errors' }}. Please correct the following and submit again:</p>
+  {% for field in form.errors %}
+    <p>The {{ field | capitalize | replace: 'Body', 'Message' }} field {{ form.errors.messages[field] }}.</p>
+  {% endfor %}
+</div>
+{% endif %}
+
+<div id="contactFormWrapper">
+  <p>
+    <label>Your Name:</label>
+    <input type="text" id="contactFormName" name="contact[name]" placeholder="Name" />
+  </p>
+  <p>
+    <label>Email:</label>
+    <input type="email" id="contactFormEmail" name="contact[email]" placeholder="Email" />
+  </p>
+  <p>
+    <label>Phone Number:</label>
+    <input type="text" id="contactFormTelephone" name="contact[phone]" placeholder="Contact Number" />
+  </p>
+  <p>
+    <label>Message:</label>
+    <textarea rows="15" cols="150" id="contactFormMessage" name="contact[body]" placeholder="Your Message" style="min-width: 300px"></textarea>
+  </p>
+  <p>
+    <input type="submit" id="contactFormSubmit" class="submit secondary button" value="SEND"/>
+  </p>
+</div><!-- contactWrapper -->
+<!--
+  <script>
+    function doTheSubmit() {
+        console.debug("submitted");
+        document.getElementById("contactFormWrapper").submit();
+    }
+  </script>
+-->
+</form>
+<!--{% endform %}-->

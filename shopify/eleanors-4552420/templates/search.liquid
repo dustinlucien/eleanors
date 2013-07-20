@@ -1,0 +1,57 @@
+<h2 class="desktop-12">Search</h2>
+
+<div id="search-bar" class="desktop-12 mobile-3">
+  <form action="/search" method="get">
+    <p>Your search for "{{ search.terms | escape }}" returned {{ search.results_count }} results</p> 
+    <input type="text" name="q" id="q" placeholder="search..." />
+  </form>
+</div>
+
+{% if search.performed %}
+{% paginate search.results by 48 %}  	
+
+
+<ul id="collection-loop" style="width: 100%">
+  {% for item in search.results %} 
+  <li class="product desktop-3 mobile-3{% cycle ' first', '', '',' last' %}" data-alpha="{{ collection.title }}">  
+    {% if item.featured_image %}
+      <div class="collection-image">
+          <a href="{{item.url}}" title="">{{ item.featured_image | product_img_url: 'large' | img_tag }}</a>     
+      </div>
+
+		<div id="product-info">
+          <h3>{{ item.title | link_to: item.url }}<br />{{ item.price | money }}</h3>
+      </div>
+    {% else %}
+    <h3><a href="{{item.url}}">{{ item.title }}</a></h3>
+     <span>{{ item.content | strip_html | truncatewords: 40 | highlight: search.terms }}</span>
+    {% endif %}
+  </li>
+  {% endfor %}
+</ul>
+
+	<div id="pagination" class="desktop-12 tablet-6 mobile-3">
+		
+		<span class="count">Showing items {{ paginate.current_offset | plus: 1 }}-{% if paginate.next %}{{ paginate.current_offset | plus: paginate.page_size }}{% else %}{{ paginate.items }}{% endif %} of {{ paginate.items }}.</span>
+		
+        {% if paginate.previous %}
+          {{ '<' | link_to: paginate.previous.url }}
+        {% endif %}
+        {% for part in paginate.parts %}
+          {% if part.is_link %}
+            {{ part.title | link_to: part.url }}
+          {% else %}
+            {% if part.title == '&hellip;' %}
+            {{ part.title }}
+            {% else %}
+            <span class="current">{{ part.title }}</span>
+            {% endif %}
+          {% endif %}
+        {% endfor %}
+        {% if paginate.next %}
+          {{ '>' | link_to: paginate.next.url }}
+        {% endif %}
+	</div>
+{% endpaginate %}
+{% endif %}
+
