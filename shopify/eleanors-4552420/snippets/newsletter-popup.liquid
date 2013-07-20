@@ -19,7 +19,7 @@
 		}
 		return null;
 	}
-	
+
 	$(window).load(function(){
 		if (!(readCookie('eleanorsubs') === 'true')){
 			$('#mailing-mover').animate({
@@ -28,13 +28,7 @@
 		}
 	});
 </script>
-<style>
-#mailing-mover{z-index:999;background:url({{ 'newsies.png' | asset_url }});height:288px;width:288px;position:fixed;bottom:-300px;right:30px;}
-#mailing-mover-EMAIL{top: 168px;left: 43px;position: absolute;height: 20px;width: 195px;}
-#mailing-mover-embedded-subscribe{top: 206px;left: 170px;position: absolute;background: #999;color: #BFA979;border: 1px solid #898989;height: 29px;width: 78px;font-weight: bold;}
-#mailing-mover-linkers{position: absolute;top: 240px;left: 79px;font-size: 10px;color: #555;}
-#mailing-mover-close{height:15px;width:15px;border-radius:50%;border:2px solid #ddd;background:#666;font-size:12px;position:absolute;right:0;top:0;color:#fff;text-decoration:none;padding:1px;text-align:center;}
-</style>
+
 <div id="mailing-mover">
 	<a href="#" id="mailing-mover-close" onmousedown="createCookie('eleanorsubs','true',60); $('#mailing-mover').css('display','none');">X</a>
 	<form action="http://eleanorsnyc.us5.list-manage.com/subscribe/post?u=2db0785c770eeb664f90abbdc&amp;id=48bbeca185" method="post" id="mailing-mover-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank">
