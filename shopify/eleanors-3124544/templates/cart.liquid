@@ -1,0 +1,93 @@
+<script type="text/javascript">
+function remove_item(id) {
+  document.getElementById('updates_'+id).value = 0;
+  document.getElementById('cartform').submit();
+}
+
+function toggleEdit(id){
+  jQuery("#item-"+id+" > div").toggle(); // toggle view / edit div
+  if(jQuery("#item-"+id+" .edit-item:visible").size() > 0){ jQuery("#item-"+id+" .edit-item input.quantity").focus(); }
+  return false;
+}
+
+function confirmCartUpdate(id, qty){
+  document.getElementById('cartform').submit();
+}
+</script>
+<div id="cart">
+  {% if cart.item_count == 0 %} 
+  <div class="empty c">
+    <h2>{{ settings.tr_cart_empty }}</h2>
+  </div>
+  {% else %}
+  <h3 class="title">{{ settings.tr_cart_summary }} 
+    <span class="details">{{ cart.item_count }} {% if cart.item_count == 1 %}{{ settings.tr_item }}{% else %}{{ settings.tr_items }}{% endif %}</span>
+  </h3>
+  <form action="/cart" method="post" id="cartform">
+    <div class="items products">
+      {% for item in cart.items %}
+      <div id="item-{{ item.variant.id }}" class="item {% cycle 'even', 'odd' %}{% if forloop.last %} last{% endif %}">
+        <div class="view-item">
+          <a href="#" onClick="toggleEdit('{{ item.variant.id }}'); return false;"  class="edit rounded-btn">{{ settings.tr_edit }}</a>
+          <div class="product clearfix">
+            <div class="image dtable">
+              <div class="dcell">
+                <img src="{{ item.product.featured_image | product_img_url: 'small' }}" alt="{{ item.product.title | escape }}" />
+              </div>
+            </div>
+            <div class="details dtable">
+              <div class="dcell">
+                <h2 class="title">{{ item.product.title }}</h2>
+                <h3 class="price">
+                  {{ item.variant.title }}<br />
+                  {{ item.quantity }} x {{ item.price | money }}
+                </h3>
+              </div>
+            </div>
+          </div>
+        </div> <!-- /.view-item -->
+        <div class="edit-item hide">
+          <a href="#" onClick="remove_item('{{ item.variant.id }}'); return false;"  class="remove rounded-btn done">{{ settings.tr_remove }}</a>
+          <div class="product clearfix">
+            <div class="image dtable">
+              <div class="dcell">
+                <img src="{{ item.product.featured_image | product_img_url: 'small' }}" alt="{{ item.product.title | escape }}" />
+              </div>
+            </div>
+            <div class="details dtable">
+              <div class="dcell">
+                <h2 class="title">{{ item.product.title }}</h2>
+                <h3 class="price">
+                  <span>{{ settings.tr_quantity }}</span> <input type="number" size="4" name="updates[{{item.variant.id}}]" class="quantity" id="updates_{{item.variant.id}}" value="{{item.quantity}}" onfocus="this.select();" onMouseUp="return false;" onChange="confirmCartUpdate({{ item.variant.id }}, {{ item.quantity }});"/>
+                </h3>
+              </div>
+            </div>
+          </div>
+        </div> <!-- /.edit-item -->
+      </div> <!-- /.item -->
+      {% endfor %}
+    </div>
+    <h3 class="title">{{ settings.tr_subtotal }} <span class="details summary">{{ cart.total_price | money_with_currency }}</span></h3>
+    <div class="p">
+      <input type="submit" id="update-cart" name="checkout" value="{{ settings.tr_proceed_to_checkout }}" class="btn" />
+    </div>
+  </form>
+
+  {% endif %}
+
+  {% unless settings.accept_visa or settings.accept_mastercard or settings.accept_amex or settings.accept_paypal or settings.accept_delta or settings.accept_discover or settings.accept_westernunion or settings.accept_cirrus %}
+
+  {% else %}
+  <h3 class="title">{{ settings.tr_payment_methods }}</h3>
+  <ul class="nav p clearfix" style="margin:0;">
+    {% if settings.accept_visa %}<li class="cc visa">Visa</li>{% endif %}
+    {% if settings.accept_mastercard %}<li class="cc mastercard">MasterCard</li>{% endif %}
+    {% if settings.accept_amex %}<li class="cc amex">American Express</li>{% endif %}
+    {% if settings.accept_cirrus %}<li class="cc cirrus">Cirrus</li>{% endif %}
+    {% if settings.accept_delta %}<li class="cc delta">Delta</li>{% endif %}
+    {% if settings.accept_discover %}<li class="cc discover">Discover</li>{% endif %}
+    {% if settings.accept_westernunion %}<li class="cc westernunion">Western Union</li>{% endif %}
+    {% if settings.accept_paypal %}<li class="cc paypal">PayPal</li>{% endif %}
+  </ul>
+  {% endunless %}
+</div>
