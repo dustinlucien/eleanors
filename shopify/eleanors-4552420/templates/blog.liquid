@@ -18,10 +18,9 @@
         <ul id="posts">
         {% for article in blog.articles  %}
         <li><a href="{{article.url}}">{{ article.title }}</a>
-          <p>{{ article.published_at | date: "%b %d %Y" }}</p>
-          <p>{{ article.excerpt_or_content | strip_html | truncate: 140 }}</p>
+          <p>{{ article.published_at | date: "%b %d %Y" }}<p>
         </li>
-        {% endfor %} 
+        {% endfor %}
         <h3 style="margin: 20px 0">Categories</h3>
         {% for tag in blog.all_tags %}
         <li class="tags">
@@ -30,13 +29,13 @@
         {% endfor %}
         </ul>
     </div>
-  
-  
+
+
   <div class="clear"></div>
-  
+
 
 	<div id="pagination" class="desktop-12 tablet-6 mobile-3">
-				
+
       {% if paginate.previous %}
         {{ '<' | link_to: paginate.previous.url }}
       {% endif %}
