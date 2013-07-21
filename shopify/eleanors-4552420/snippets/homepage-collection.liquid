@@ -1,0 +1,27 @@
+{% assign collection = collections[homepage-collection] %}
+
+<li class="product desktop-4 mobile-3" data-alpha="{{ collection.title }}">
+        {% for col in product.collections %}
+            {% if col.handle == 'new' %}
+                <div class="new"></div>
+            {% endif %}
+        {% endfor %}
+        {% if product.price < product.compare_at_price %}
+        <div class="sale-item"></div>
+        {% endif %}
+    <div class="collection-image">
+        <a href="{{ collection.url }}" title="{{ collection_title }}">
+            {% if collection.image %}
+                {{ collection.image.src | collection_img_url: 'grande' | img_tag: collection_title }}
+            {% else %}
+                {{ collection.products.first.featured_image | product_img_url: 'grande' | img_tag: collection_title }}
+            {% endif %}
+        </a>
+    </div>
+
+    <div id="product-info">
+        <a href="{{ collection.url }}" title="Browse our {{ collection_title }} collection">
+          <h3>{{ collection.title }}<br />{{ collection.products_count }} items</h3>
+        </a>
+    </div>
+</li>

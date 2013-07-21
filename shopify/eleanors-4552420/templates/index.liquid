@@ -25,7 +25,7 @@
         {% if settings.slide-7-check %}<li><a href="{{ settings.slide7_url }}"><img src="{{ 'slide7.jpg' | asset_url }}" alt="{{ settings.slide7_alt }}" /></a></li>{% endif %}
         {% if settings.slide-8-check %}<li><a href="{{ settings.slide8_url }}"><img src="{{ 'slide8.jpg' | asset_url }}" alt="{{ settings.slide8_alt }}" /></a></li>{% endif %}
         {% if settings.slide-9-check %}<li><a href="{{ settings.slide9_url }}"><img src="{{ 'slide9.jpg' | asset_url }}" alt="{{ settings.slide9_alt }}" /></a></li>{% endif %}
-        {% if settings.slide-10-check %}<li><a href="{{ settings.slide10_url }}"><img src="{{ 'slide10.jpg' | asset_url }}" alt="{{ settings.slide10_alt }}" /></a></li>{% endif %}           
+        {% if settings.slide-10-check %}<li><a href="{{ settings.slide10_url }}"><img src="{{ 'slide10.jpg' | asset_url }}" alt="{{ settings.slide10_alt }}" /></a></li>{% endif %}
       </ul>
     </div>
 </div>
@@ -53,12 +53,12 @@ $(window).load(function() {
 
 <ul id="product-loop" style="width: 100%">
             {% for product in collections.[settings.homepage-collection].products limit: settings.homepage-product-limit %}
-            <li class="product desktop-3 tablet-half mobile-3" data-alpha="{{ product.title }}" data-price="{{ product.price }}">     
-                <a href="{{ product.url | within: collection }}" class="text-center">  
+            <li class="product desktop-3 tablet-half mobile-3" data-alpha="{{ product.title }}" data-price="{{ product.price }}">
+                <a href="{{ product.url | within: collection }}" class="text-center">
                     <img src="{{ product.images[0] | product_img_url: 'grande' }}" alt="{{ product.title | escape }}"/>
-                </a>              
-                <div id="product-info"> 
-                    <a href="{{ product.url | within: collection }}"> 
+                </a>
+                <div id="product-info">
+                    <a href="{{ product.url | within: collection }}">
                         {% if settings.vendor %}<p>{{ product.vendor }}</p>{% endif %}
                         <h3>{{ product.title }}</h3>
                     </a>
@@ -68,7 +68,7 @@ $(window).load(function() {
 							<div class="was">{{ product.compare_at_price | money }}</div>
 						{% else %}
 							<div class="prod-price">{{ product.price | money }}</div>
-						{% endif %}	
+						{% endif %}
 					</div>
 					<div id="show-sizes">
 						{% include 'size' %}
@@ -76,8 +76,8 @@ $(window).load(function() {
                 </div>
             </li>
             {% endfor %}
-		</ul>	        
-		
+		</ul>
+
 </div>
 <div class="clear"></div>
 {% endif %}
@@ -87,40 +87,23 @@ $(window).load(function() {
 
   {% if settings.collection-1 == '' and settings.collection-2 == '' and settings.collection-3 == '' %}
   {% else %}
-	<h2><span>{{ settings.homepage-collections-title }}</span></h2>
-  {% endif %}
-	
-  <ul id="collection-loop" style="width: 100%">
-    {% for collection in collections %}
-	{% if collection.handle == settings.collection-1 or collection.handle == settings.collection-2 or collection.handle == settings.collection-3 %}
-    <li class="product desktop-4 mobile-3" data-alpha="{{ collection.title }}">  
-			{% for col in product.collections %}
-			    {% if col.handle == 'new' %}
-			        <div class="new"></div>
-			    {% endif %}
-			{% endfor %}
-		   	{% if product.price < product.compare_at_price %}
-			<div class="sale-item"></div>
-			{% endif %}   
-        <div class="collection-image">
-            <a href="{{ collection.url }}" title="{{ collection_title }}">
-				{% if collection.image %}
-            		{{ collection.image.src | collection_img_url: 'grande' | img_tag: collection_title }}
-				{% else %}
-            		{{ collection.products.first.featured_image | product_img_url: 'grande' | img_tag: collection_title }}
-				{% endif %}
-            </a>     
-        </div>
+  	<h2><span>{{ settings.homepage-collections-title }}</span></h2>
 
-		<div id="product-info">
-            <a href="{{ collection.url }}" title="Browse our {{ collection_title }} collection">
-              <h3>{{ collection.title }}<br />{{ collection.products_count }} items</h3>
-            </a>
-        </div>
-    </li>
+    <ul id="collection-loop" style="width: 100%">
+      {% if settings.collection-1 != '' %}
+        {% include 'homepage-collection' with settings.collection-1 %}
+      {% endif %}
+
+      {% if settings.collection-2 != '' %}
+        {% include 'homepage-collection' with settings.collection-2 %}
+      {% endif %}
+
+      {% if settings.collection-3 != '' %}
+        {% include 'homepage-collection' with settings.collection-3 %}
+      {% endif %}
+    </ul>
+
   {% endif %}
-  {% endfor %}
-  </ul>	
 
 </div>
 <div class="clear"></div>
@@ -128,34 +111,34 @@ $(window).load(function() {
 
 {% if settings.homepage-articles %}
 <div id="homepage-blog">
-	
+
 	<h2>
 		<span>Featured Posts</span>
 	</h2>
-	
+
             <ul id="featured-posts">
                 {% for article in blogs.[settings.homepage-blog].articles limit: 3 %}
                 <li class="desktop-4 mobile-3">
                     <a href="{{ article.url }}">
 						<h3 class="text-center">{{ article.title }}</h3>
 					</a>
-					<p class="date text-center">{{ article.published_at | date: "%A %b %d %Y" }}</p> 
+					<p class="date text-center">{{ article.published_at | date: "%A %b %d %Y" }}</p>
                         {% if article.excerpt != blank %}
-                  			<div id="homepage-excerpt"> 
-                              {{ article.excerpt }}                                    
+                  			<div id="homepage-excerpt">
+                              {{ article.excerpt }}
                         	</div>
                   		{% endif %}
                   		<div id="homepage-content">
-                        
+
                             <p>{{ article.content | strip_html | truncate: 140 }}</p>
 							<div class="text-left"><a href="{{ article.url }}">Read More</a>
-                            
+
 							{% if blog.comments_enabled? %}
 							<div class="text-right">
 								<a href="{{article.url}}#comments">{{ article.comments_count }} comments</a>
 							</div>
 							{% endif %}
-							
+
                         </div>
                 </li>
                 {% endfor %}
@@ -169,23 +152,23 @@ $(window).load(function() {
 
 {% if settings.instagram %}
 <div id="follow-us">
-	
+
 	<h2>
 		<span>{{ settings.instagram-label }}</span>
 	</h2>
-	
+
       <script type="text/javascript">
-    // Instagram Extension 
-    
+    // Instagram Extension
+
     $(document).ready(function() {
         $(".instagram").instagram({
           hash: '{{ settings.hashtag }}',
          show: '6',
         clientId: '{{ settings.client-id }}'
         });
-       
+
         });
-        
+
         $(window).load(function () {
         $('div.instagram-placeholder').each( function(i) {
         if( i % 6 != 6 )
@@ -194,7 +177,7 @@ $(window).load(function() {
         })
     });
     </script>
-   
+
 	<div class="instagram"></div>
 
 </div>
