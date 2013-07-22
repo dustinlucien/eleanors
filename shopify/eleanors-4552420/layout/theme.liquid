@@ -7,10 +7,10 @@
 
 	<meta charset="utf-8" />
   	<meta name="viewport" content="width=device-width" />
-  
+
     <!-- Basic Page Needs
   ================================================== -->
-    
+
     {% if template == 'index' %}
      <title>{{ shop.name }} | {{ shop.description }}</title>
     {% elsif template == '404' %}
@@ -27,18 +27,18 @@
       <meta name="description" content="{{ shop.description | strip_html | strip_newlines | truncate: maxmeta | escape}}" />
     {% endif %}
 	<link rel="canonical" href="{{ canonical_url }}" />
-	
+
     <!-- CSS
   ================================================== -->
-    
+
     {{ 'stylesheet.css' | asset_url | stylesheet_tag }}
     {{ 'flexslider.css' | asset_url | stylesheet_tag }}
 	{{ 'queries.css' | asset_url | stylesheet_tag }}
 	{{ 'jquery.fancybox.css' | asset_url | stylesheet_tag }}
-	    
+
     <!-- JS
   ================================================== -->
-  
+
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 	{{ 'theme.js' | asset_url | script_tag }}
     {{ 'option_selection.js' | asset_url | script_tag }}
@@ -48,7 +48,7 @@
 	{{ 'jquery.mousewheel-3.0.6.pack.js' | asset_url | script_tag }}
 	{{ 'jquery.easing.1.3.js' | asset_url | script_tag }}
   {{ 'jquery.placeholder.js' | asset_url | script_tag }}
-	
+
 	{% if template == 'product' %}
 	{{ 'jquery.elevateZoom-2.5.5.min.js' | asset_url | script_tag }}
 	{% endif %}
@@ -65,31 +65,31 @@
 
 	<!-- Favicons
 	================================================== -->
-	
+
 	<link rel="shortcut icon" href="{{ 'favicon.png' | asset_url }}">
 
     {% if template contains 'customers' %}
     {{ "shopify_common.js" | shopify_asset_url | script_tag }}
     {{ "customer_area.js"  | shopify_asset_url | script_tag }}
     {% endif %}
-    
+
     {{ content_for_header }}
-    
+
 </head>
 
 <body class="gridlock">
 	<div id="wrapper" class="container">
-	
+
 	<div id="top-row" class="row">
-		
-		<!-- Start top Row -->	
+
+		<!-- Start top Row -->
 
     	<ul id="cart" class="desktop-6 desktop-push-6 tablet-6 mobile-3">
-		
+
     		{% if shop.customer_accounts_enabled %}
     		<li>
         		{% if customer  %}
-        		<a href="/account">My Account</a> {{ "| Logout" | customer_logout_link }} 
+        		<a href="/account">My Account</a> {{ "| Logout" | customer_logout_link }}
         		{% else %}
         		{{ "Sign in" | customer_login_link }} or {{ 'Create an Account' | customer_register_link }}
         		{% endif %}
@@ -102,9 +102,9 @@
 	</div>
 
 		<!-- End Top Row -->
-		
+
 	<div id="header" class="row">
-		
+
     	<div id="logo" class="desktop-3 tablet-6 mobile-3">
         	<h1>
 				{% if settings.use_logo_image %}
@@ -113,8 +113,8 @@
           			<a href="/">{{ shop.name }}</a>
           		{% endif %}
 			</h1>
-    	</div>  
-    
+    	</div>
+
     	<div id="navigation" class="desktop-9 omega tablet-6 mobile-3">
           <nav class="primary">
        		<ul id="nav">
@@ -138,23 +138,23 @@
 				</li>
         	</ul>
           </nav>
-                
+
     	</div>
 
-      
+
 <script type="text/javascript">
 $(document).ready(function() {
 
     //build dropdown
     $("<select />").appendTo("#navigation ul#nav");
-    
+
     // Create default option "Go to..."
     $("<option />", {
        "selected": "selected",
 	   "value"   : "",
 	   "text"    : "Go to..."
-	}).appendTo("ul#nav select");	
-	
+	}).appendTo("ul#nav select");
+
 	// Populate dropdowns with the first menu items
 	$("ul#nav li a").each(function() {
 	 	var el = $(this);
@@ -163,44 +163,44 @@ $(document).ready(function() {
 	    	"text"    : el.text()
 	 	}).appendTo("ul#nav select");
 	});
-	
-	//make responsive dropdown menu actually work			
+
+	//make responsive dropdown menu actually work
   	$("ul#nav select").change(function() {
     	window.location = $(this).find("option:selected").val();
   	});
 
-});	
-</script>          
-</div>      
-      
-	
-	
-	
-	
-	
+});
+</script>
+</div>
+
+
+
+
+
+
 	<!-- End Header -->
-    
+
     <div id="content" class="row">
-      
+
       		<div id="nav-border" class="desktop-12 tablet-6 mobile-3"></div>
-	
+
 	<!-- Hide Breadcrumbs from homepage -->
 	{% if template != "index" %}
 		{% if settings.breadcrumb %}
-			{% include 'breadcrumb' %}	
+			{% include 'breadcrumb' %}
 		{% endif %}
 	{% endif %}
-	
+
 	{% if template == 'list-collections' %}
     	{% include 'collection-listing' %}
     {% else %}
 		{{ content_for_layout }}
     {% endif %}
-    
-    </div> 
+
+    </div>
 
 	<!-- End Content -->
-	
+
 	<div id="footer" class="row">
 		<div id="footer-border" class="desktop-12 tablet-6 mobile-3">
 		</div>
@@ -241,7 +241,7 @@ $(document).ready(function() {
 				{% if settings.show_wordpress %} <a href="{{ settings.wordpress_url }}" target="_blank"><img src="{{ 'Wordpress.jpg' | asset_url }}" width="32px"></a>{% endif %}
 			</li>
 		</ul>
-		
+
 		<div id="payment" class="desktop-12 mobile-3">
 		    {% if settings.american_express %}<img src="{{ 'amex.png' | asset_url }}"/>{% endif %}
             {% if settings.dankort %}<img src="{{ 'dankort.png' | asset_url }}"/>{% endif %}
@@ -252,12 +252,12 @@ $(document).ready(function() {
             {% if settings.jcb %}<img src="{{ 'jcb.png' | asset_url }}">{% endif %}
             {% if settings.maestro %}<img src="{{ 'maestro.png' | asset_url }}"/>{% endif %}
             {% if settings.mastercard %}<img src="{{ 'mastercard.png' | asset_url }}"/>{% endif %}
-            {% if settings.paypal %}<img src="{{ 'paypa.png' | asset_url }}"/>{% endif %}  
-            {% if settings.solo %}<img src="{{ 'solo.png' | asset_url }}"/>{% endif %}  
-            {% if settings.visa %}<img src="{{ 'visa.png' | asset_url }}"/>{% endif %}	
+            {% if settings.paypal %}<img src="{{ 'paypa.png' | asset_url }}"/>{% endif %}
+            {% if settings.solo %}<img src="{{ 'solo.png' | asset_url }}"/>{% endif %}
+            {% if settings.visa %}<img src="{{ 'visa.png' | asset_url }}"/>{% endif %}
 <br />
 		</div>
-		
+
 	</div>
 
 </div>
@@ -291,9 +291,9 @@ if (typeof Shopify.resizeImage === 'undefined') {
 Shopify.Products.recordRecentlyViewed();
 
 //]]>
-  
+
 $('input, textarea').placeholder();
-  
+
 </script>
 
 {% endif %}
