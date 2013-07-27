@@ -23,14 +23,14 @@
 
         {% endif %}
 
-      <input type="submit" name="button" id="add" value="Add to Cart" />
+      <input type="submit" name="button" id="add" value="Add to Cart" onclick="pageTracker._trackEvent('Products', 'Add To Cart', '{{ product.handle }}'); _pa.track('cart');"/>
     </form>
 
     {% if settings.popups %}
       <ul id="popups">
-        <li class="first"><a href="#pop-one" class="fancybox">{{ settings.popup-one-title }}</a></li>
-        {% if settings.popup-2 %}<li><a href="#pop-two" class="fancybox">{{ settings.popup-two-title }}</a></li>{% endif %}
-        {% if settings.popup-3 %}<li><a href="#pop-three" class="fancybox">{{ settings.popup-three-title }}</a></li>{% endif %}
+        <li class="first"><a href="#pop-one" class="fancybox" onclick="pageTracker._trackEvent('Products', '{{ settings.popup-one-title }}', '{{ product.handle }}');">{{ settings.popup-one-title }}</a></li>
+        {% if settings.popup-2 %}<li><a href="#pop-two" class="fancybox" onclick="pageTracker._trackEvent('Products', '{{ settings.popup-two-title }}', '{{ product.handle }}');">{{ settings.popup-two-title }}</a></li>{% endif %}
+        {% if settings.popup-3 %}<li><a href="#pop-three" class="fancybox" onclick="pageTracker._trackEvent('Products', '{{ settings.popup-three-title }}', '{{ product.handle }}');">{{ settings.popup-three-title }}</a></li>{% endif %}
         {% if settings.popup-4 %}<li class="last"><a href="#pop-four" class="fancybox">{{ settings.popup-four-title }}</a></li>{% endif %}
       </ul>
       <div id="pop-one" style="display: none">{{ pages.[settings.popup-one].content }}</div>

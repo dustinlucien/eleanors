@@ -13,21 +13,23 @@
           maxId: null,
           minId: null
         };
-        
+
     options && $.extend(settings, options);
-    
+
     function createPhotoElement(photo) {
-		 if((photo.caption) !== null){        var photo_content = photo.caption.text + "  -  ";      }      else {        var photo_content = " "      }
+	  if((photo.caption) !== null){
+        var photo_content = photo.caption.text + "  -  ";
+      } else {
+        var photo_content = " "
+      }
       return $('<div>')
         .addClass('instagram-placeholder desktop-2 mobile-half')
         .attr('id', photo.id)
         .append(
           $('<a>')
-           // .attr('target', '_blank')
-			.attr('href', photo.images.standard_resolution.url)
-			.attr('rel', 'lightbox-instagram')
-			.attr('title', photo.caption.text)  
-			.attr('class', 'fancybox')
+            .attr('target', '_blank')
+			.attr('href', photo.link)
+			.attr('title', photo.caption.text)
             .append(
               $('<img>')
                 .addClass('instagram-image')
@@ -35,13 +37,13 @@
             )
         );
     }
-	
-	
-    
+
+
+
     function composeRequestURL() {
       var url = apiEndpoint,
           params = {};
-      
+
       if(settings.hash != null) {
         url += "/tags/" + settings.hash + "/media/recent";
       }
@@ -56,17 +58,17 @@
       else {
         url += "/media/popular";
       }
-      
+
       settings.accessToken != null && (params.access_token = settings.accessToken);
       settings.clientId != null && (params.client_id = settings.clientId);
 
       url += "?" + $.param(params);
-      
+
       return url;
     }
-    
+
     settings.onLoad != null && typeof settings.onLoad == 'function' && settings.onLoad();
-    
+
     $.ajax({
       type: "GET",
       dataType: "jsonp",
@@ -74,15 +76,15 @@
       url: composeRequestURL(),
       success: function(res) {
         settings.onComplete != null && typeof settings.onComplete == 'function' && settings.onComplete(res.data);
-        
+
         var limit = settings.show == null ? res.data.length : settings.show;
-        
+
         for(var i = 0; i < limit; i++) {
           that.append(createPhotoElement(res.data[i]));
         }
       }
     });
-    
+
     return this;
   };
 })(jQuery);

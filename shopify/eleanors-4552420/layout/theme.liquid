@@ -12,11 +12,11 @@
   ================================================== -->
 
     {% if template == 'index' %}
-     <title>{{ shop.name }} | {{ shop.description }}</title>
+  	<title>{{ shop.name }} | {{ page_title }} </title>
     {% elsif template == '404' %}
-      <title>Page Not Found | {{ shop.name }}</title>
+      <title>Page Not Found | {{ page_title }}</title>
     {% else %}
-     <title>{{ page_title }} | {{ shop.name }}</title>
+     <title>{{ shop.name }} | {{ page_title }}</title>
     {% endif %}
     {% assign maxmeta = 155 %}
     {% if template contains 'product' %}
@@ -105,7 +105,7 @@
 
 	<div id="header" class="row">
 
-    	<div id="logo" class="desktop-3 tablet-6 mobile-3">
+    	<div id="logo" class="desktop-4 tablet-6 mobile-3">
         	<h1>
 				{% if settings.use_logo_image %}
           			<a href="/"><img src="{{ 'logo.png' | asset_url }}" alt="{{ shop.name }}" style="border: 0;"/></a>
@@ -202,11 +202,10 @@ $(document).ready(function() {
 	<!-- End Content -->
 
 	<div id="footer" class="row">
-		<div id="footer-border" class="desktop-12 tablet-6 mobile-3">
-		</div>
-		     <div>
-    {{ 'featured-in-runner.png' | asset_url | img_tag }}
-</div>
+		<div id="footer-border" class="desktop-12 tablet-6 mobile-3" />
+
+        {% include 'featured-in-runner' %}
+
 		<ul class="desktop-3 mobile-3">
           <h4>{{ settings.footer-1-title }}</h4>
 			{% for link in linklists.[settings.footer-1].links %}
@@ -255,7 +254,7 @@ $(document).ready(function() {
             {% if settings.paypal %}<img src="{{ 'paypa.png' | asset_url }}"/>{% endif %}
             {% if settings.solo %}<img src="{{ 'solo.png' | asset_url }}"/>{% endif %}
             {% if settings.visa %}<img src="{{ 'visa.png' | asset_url }}"/>{% endif %}
-<br />
+            <br />
 		</div>
 
 	</div>
@@ -282,6 +281,7 @@ if (typeof Shopify.resizeImage === 'undefined') {
 
 {{ 'http://ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js' | script_tag }}
 {{ 'jquery.products.min.js' | asset_url | script_tag }}
+{{ 'jquery.mobile.detect.min.js' | asset_url | script_tag }}
 
 {% if template contains 'product' %}
 

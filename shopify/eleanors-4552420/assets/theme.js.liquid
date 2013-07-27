@@ -2,14 +2,14 @@ $(document).ready(function() {
 
     //build dropdown
     $("<select />").appendTo("#navigation nav");
-    
+
     // Create default option "Go to..."
     $("<option />", {
        "selected": "selected",
        "value"   : "",
        "text"    : "Shop..."
-	}).appendTo("nav select");	
-	
+	}).appendTo("nav select");
+
 	// Populate dropdowns with the first menu items
 	$("ul#nav li a").each(function() {
 	 	var el = $(this);
@@ -18,8 +18,8 @@ $(document).ready(function() {
 	    	"text"    : el.text()
 	 	}).appendTo("nav select");
 	});
-	
-	//make responsive dropdown menu actually work			
+
+	//make responsive dropdown menu actually work
   	$("nav select").change(function() {
     	window.location = $(this).find("option:selected").val();
   	});
@@ -32,12 +32,14 @@ $(document).ready(function() {
       slideshowSpeed: {{ settings.slideshow-speed }},
 	directionNav: true
   	});
-    
+
 	$('.coll-filter').customSelect();
-	
-   
-    $('.product').hover(function(){ $(this).children('#product-info').show(); }, function(){ $(this).children('#product-info').hide(); })
- 
+
+    if ($.browser.mobile) {
+        $('.product-info').show();
+    } else {
+        $('.product').hover(function(){ $(this).children('.product-info').show(); }, function(){ $(this).children('.product-info').hide(); })
+    }
 
 	//<![CDATA[
 	jQuery(function() {
@@ -46,11 +48,11 @@ $(document).ready(function() {
 	      jQuery(this).addClass('current');
 	    }
 	  });
-	});  
+	});
 	//]]>
- 
 
-}); 
+
+});
 
 
 

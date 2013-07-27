@@ -57,7 +57,7 @@ $(window).load(function() {
                 <a href="{{ product.url | within: collection }}" class="text-center">
                     <img src="{{ product.images[0] | product_img_url: 'grande' }}" alt="{{ product.title | escape }}"/>
                 </a>
-                <div id="product-info">
+                <div class="product-info">
                     <a href="{{ product.url | within: collection }}">
                         {% if settings.vendor %}<p>{{ product.vendor }}</p>{% endif %}
                         <h3>{{ product.title }}</h3>
@@ -113,8 +113,26 @@ $(window).load(function() {
 <div id="homepage-blog">
 
 	<h2>
-		<span>Featured Posts</span>
+		<span>{{settings.homepage-articles-title}}</span>
 	</h2>
+
+         <script type="text/javascript">
+            $(document).ready(function() {
+                $(".wordpress").wordpress({
+                 show: '{{ settings.homepage-articles-count}}',
+                 blogUrl: '{{ settings.homepage-blog-url }}'
+                });
+
+                });
+
+                $(window).load(function () {
+                $('div.featured-post').each( function(i) {
+                    if( i % '{{ settings.homepage-articles-count}}' == 0 )
+                    return
+                    $(this).addClass('last')
+                })
+            });
+        </script>
 
             <ul id="featured-posts">
                 {% for article in blogs.[settings.homepage-blog].articles limit: 3 %}

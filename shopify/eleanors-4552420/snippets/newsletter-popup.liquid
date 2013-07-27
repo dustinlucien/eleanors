@@ -21,7 +21,8 @@
 	}
 
 	$(window).load(function(){
-		if (!(readCookie('eleanorsubs') === 'true')){
+		if (!(readCookie('eleanorsubs') === 'true') && !($.browser.mobile)){
+            $('#mailing-mover').show();
 			$('#mailing-mover').animate({
 				bottom:'30px'
 			},1500);
@@ -29,7 +30,7 @@
 	});
 </script>
 
-<div id="mailing-mover">
+<div id="mailing-mover" style="display: none">
 	<a href="#" id="mailing-mover-close" onmousedown="createCookie('eleanorsubs','true',60); $('#mailing-mover').css('display','none');">X</a>
 	<form action="http://eleanorsnyc.us5.list-manage.com/subscribe/post?u=2db0785c770eeb664f90abbdc&amp;id=48bbeca185" method="post" id="mailing-mover-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank">
 		<input type="email" value="" name="EMAIL" class="email" id="mailing-mover-EMAIL" required>

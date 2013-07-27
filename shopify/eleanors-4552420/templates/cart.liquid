@@ -40,7 +40,7 @@
                       {% endfor %}
                       {% if found == false %}
                         <img src="{{ item.product.featured_image | product_img_url: 'medium' }}"  alt="{{ item.product.featured_image.alt | escape }}" />
-                      {% endif %}           
+                      {% endif %}
                     </a>
                 </div>
                 <div class="cart-title">
@@ -50,10 +50,10 @@
             </div>
         </td>
         <td>
-            <p>{{ item.price | money }}{% if item.variant.compare_at_price > item.price %}<br /><del>{{ item.variant.compare_at_price | money }}</del>{% endif %}</p>          
+            <p>{{ item.price | money }}{% if item.variant.compare_at_price > item.price %}<br /><del>{{ item.variant.compare_at_price | money }}</del>{% endif %}</p>
         </td>
         <td>
-            <input type="text" size="4" name="updates[{{ item.id }}]" id="updates_{{ item.variant.id }}" value="{{ item.quantity }}" onfocus="this.select();" style="max-width: 50px; text-align: center; margin: 0 auto 10px; "/>    
+            <input type="text" size="4" name="updates[{{ item.id }}]" id="updates_{{ item.variant.id }}" value="{{ item.quantity }}" onfocus="this.select();" style="max-width: 50px; text-align: center; margin: 0 auto 10px; "/>
         </td>
       <td style="text-align: center">
             <p><a href="#" onclick="remove_item({{ item.variant.id }}); return false;">X</a></p>
@@ -71,10 +71,10 @@
 	<div id="basket-right" class="desktop-3 tablet-6 mobile-3">
 		<h4>Subtotal {{ cart.total_price | money }}</h4>
         <input type="submit" name="update" id="update-cart" value="Update" class="button" />
-        <input type="submit" name="checkout" id="checkout" value="Checkout" class="button" />
+        <input type="submit" name="checkout" id="checkout" value="Checkout" class="button" onclick="pageTracker._trackEvent('Cart', 'Checkout', '{{ cart.total_price }}', '{{ cart.item_count }}');" />
         <div class="clear"></div>
-{% if additional_checkout_buttons %} {{ content_for_additional_checkout_buttons }} {% endif %}
-	</div>  
+        {% if additional_checkout_buttons %} {{ content_for_additional_checkout_buttons }} {% endif %}
+	</div>
 
 </form>
 {% endif %}

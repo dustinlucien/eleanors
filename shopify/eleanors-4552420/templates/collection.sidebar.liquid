@@ -8,7 +8,7 @@
 		    <li>{{ link.title | link_to: link.url }}</li>
 		{% endfor %}
 	</ul>
-	
+
 	{% if settings.collection-links-2 %}
 	<ul>
 		<h4>{{ settings.collection-linklist-2-title }}</h4>
@@ -33,9 +33,9 @@
 		{% endfor %}
 	</ul>
 	{% endif %}
-	
+
 	<!-- Start Filtering -->
-{% if settings.filters %}	
+{% if settings.filters %}
 	<div id="side-filter">
 	{% include 'dropdown-filter' %}
 	</div>
@@ -69,7 +69,7 @@
 <ul id="product-loop" class="desktop-9 mobile-3">
 
      {% for product in collection.products %}
-     <li class="product desktop-4 mobile-3{% cycle ' first', '', '' %}" data-alpha="{{ product.title }}" data-price="{{ product.price }}">   
+     <li class="product desktop-4 mobile-3{% cycle ' first', '', '' %}" data-alpha="{{ product.title }}" data-price="{{ product.price }}">
 		{% if product.available %}
 			{% for col in product.collections %}
 			    {% if col.handle == 'new' %}
@@ -82,11 +82,11 @@
 		{% else %}
 			<div class="so">SOLD OUT</div>
 		{% endif %}
-         <a href="{{ product.url | within: collection }}">  
+         <a href="{{ product.url | within: collection }}">
              <img src="{{ product.images[0] | product_img_url: 'grande' }}" alt="{{ product.title | escape }}"/>
-         </a>              
-         <div id="product-info"> 
-             <a href="{{ product.url | within: collection }}"> 
+         </a>
+         <div class="product-info">
+             <a href="{{ product.url | within: collection }}">
                  {% if settings.vendor %}<p>{{ product.vendor }}</p>{% endif %}
                  <h3>{{ product.title }}</h3>
              </a>
@@ -96,7 +96,7 @@
 						<div class="was">{{ product.compare_at_price | money }}</div>
 					{% else %}
 						<div class="prod-price">{% if product.price_varies %} from {{ product.price_min | money }} - {{ product.price_max | money }} {% else %}{{ product.price | money }}{% endif %}</div>
-					{% endif %}	
+					{% endif %}
 				</div>
 	           {% if product.variants.size > 1 %}
                   {% if settings.show-sizes %}
@@ -110,11 +110,11 @@
      {% endfor %}
 
 	</ul>
-	
+
 		<div id="pagination" class="desktop-12 tablet-6 mobile-3">
-			
+
 			<span class="count">Showing items {{ paginate.current_offset | plus: 1 }}-{% if paginate.next %}{{ paginate.current_offset | plus: paginate.page_size }}{% else %}{{ paginate.items }}{% endif %} of {{ paginate.items }}.</span>
-						
+
 	        {% if paginate.previous %}
 	          {{ '<' | link_to: paginate.previous.url }}
 	        {% endif %}
