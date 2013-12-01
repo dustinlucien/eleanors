@@ -102,10 +102,9 @@ $(window).load(function() {
         {% include 'homepage-collection' with settings.collection-3 %}
       {% endif %}
     </ul>
-
-  {% endif %}
-
 </div>
+{% endif %}
+
 <div class="clear"></div>
 {% endif %}
 
@@ -116,49 +115,18 @@ $(window).load(function() {
 		<span>{{settings.homepage-articles-title}}</span>
 	</h2>
 
-    <div id="featured-posts-placeholder" />
     <script type="text/javascript">
+      //Wordpress extension
         $(document).ready(function() {
-            $(".featured-posts-placeholder").wordpress({
-             count: '{{ settings.homepage-articles-count}}',
+            $("#featured-posts").wordpress({
+             count: '3',
              url: '{{ settings.homepage-blog-url }}'
             });
-
-        });
-
-        $(window).load(function () {
-            $('div.featured-post').each( function(i) {
-                if( i % '{{ settings.homepage-articles-count}}' == 0 )
-                return
-                $(this).addClass('last')
-            })
         });
     </script>
 
-            <ul id="featured-posts">
-                {% for article in blogs.[settings.homepage-blog].articles limit: 3 %}
-                <li class="desktop-4 mobile-3">
-                  <a href="{{ article.url }}">
-						        <h3 class="text-center">{{ article.title }}</h3>
-                  </a>
-                  <p class="date text-center">{{ article.published_at | date: "%A %b %d %Y" }}</p>
-                  {% if article.excerpt != blank %}
-                      <div id="homepage-excerpt">{{ article.excerpt }}</div>
-                  {% endif %}
-                <div id="homepage-content">
-                  <p>{{ article.content | strip_html | truncate: 140 }}</p>
-							     <div class="text-left">
-                      <a href="{{ article.url }}">Read More</a>
-                      {% if blog.comments_enabled? %}
-    							       <div class="text-right">
-    								      <a href="{{article.url}}#comments">{{ article.comments_count }} comments</a>
-    							       </div>
-                      {% endif %}
-                    </div>
-                  </div>
-                </li>
-                {% endfor %}
-            </ul>
+    <ul id="featured-posts"></ul>
+  
   </div>
 <div class="clear"></div>
 {% endif %}

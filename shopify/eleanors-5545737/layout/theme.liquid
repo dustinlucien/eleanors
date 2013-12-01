@@ -31,8 +31,8 @@
     <!-- CSS
   ================================================== -->
 
-    {{ 'stylesheet.css' | asset_url | stylesheet_tag }}
-    {{ 'flexslider.css' | asset_url | stylesheet_tag }}
+  {{ 'stylesheet.css' | asset_url | stylesheet_tag }}
+  {{ 'flexslider.css' | asset_url | stylesheet_tag }}
 	{{ 'queries.css' | asset_url | stylesheet_tag }}
 	{{ 'jquery.fancybox.css' | asset_url | stylesheet_tag }}
 
@@ -41,8 +41,8 @@
 
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 	{{ 'theme.js' | asset_url | script_tag }}
-    {{ 'option_selection.js' | asset_url | script_tag }}
-    {{ 'jquery.flexslider.js' | asset_url | script_tag }}
+  {{ 'option_selection.js' | asset_url | script_tag }}
+  {{ 'jquery.flexslider.js' | asset_url | script_tag }}
 	{{ 'select.js' | asset_url | script_tag }}
 	{{ 'jquery.fancybox.pack.js' | asset_url | script_tag }}
 	{{ 'jquery.mousewheel-3.0.6.pack.js' | asset_url | script_tag }}
@@ -55,6 +55,7 @@
 
 	{% if template == 'index' %}
 	{{ 'jquery.instagram.js' | asset_url | script_tag }}
+  {{ 'jquery.wordpress.js' | asset_url | script_tag }}  
 	{% endif %}
 
 	<!--[if lt IE 9]>
