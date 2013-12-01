@@ -581,21 +581,29 @@ ul#product-loop li { float: left; display: inline; {% if settings.product-border
 .was { color: #666; display: inline; margin-left: 5px; }
 .onsale { {% if settings.price-bold %}font-weight: bold;{% endif %} color: {{ settings.sale-color }}; display: inline; }
 
-.instagram { overflow:hidden; }
+.instagram { overflow: hidden; }
+
+.instagram-placeholder { {% if settings.product-border %}border: 1px solid {{ settings.dotted_color }}{% endif %}; position: relative; margin-bottom: 20px; }
+.instagram-placeholder img { display: block; margin: 0 auto; }
+.instagram-placeholder img a { border: 0; }
 
 .instagram-caption {
-    display: none;
-    padding: 10px 5px;
-    background: url({{ 'transparency.png' | asset_url }});
-    position: absolute;
-    width: 80%;
-    left: 10%;
-    bottom: 5%;
-    cursor: pointer;
-    text-align: center;
-    border: 1px solid #ccc;
-    z-index: 10000;
+	display: none;
+	padding: 10px 5px;
+	background: url({{ 'transparency.png' | asset_url }});
+	position: absolute;
+	width: 80%;
+	left: 10%;
+	bottom: 5%;
+	cursor: pointer;
+	text-align: center;
+	border: 1px solid #ccc;
+	z-index: 10000;
 }
+
+.instagram-caption h3 { font-size: 12px; margin-bottom: 1em; }
+.instagram-caption p { margin-bottom: 0; }
+.instagram-caption a { text-decoration: none! important; text-transform: uppercase; }
 
 .new { background: url({{ 'transparency.png' | asset_url }}); padding: 5px 10px; position: absolute; top: 5px; left: 5px; border: 1px solid #ccc; text-transform: uppercase; text-align: center; z-index: 2;  }
 .sale-item { background: url({{ 'transparency.png' | asset_url }}); padding: 5px 10px; position: absolute; top: 5px; left: 5px; border: 1px solid #ccc; text-transform: uppercase; text-align: center; }
@@ -682,10 +690,42 @@ td, th {
 ul#blog-articles { list-style-type: none; }
 ul#blog-articles li { margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid {{ settings.dotted_color }}; float: left; clear: left; }
 
+
 ul#posts { list-style: none; }
 ul#posts li { margin-bottom: 20px; padding-bottom: 0; border-bottom: 1px solid {{ settings.dotted_color }}; }
 ul#posts li p { margin-top: 0; }
 ul#posts li.tags { padding-bottom: 10px; }
+
+.article {
+	position: relative;
+}
+
+.article-image {
+	display: block;
+	margin: 0px 10px 0px 10px;
+	width: 300px;
+    height: 200px;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+.article-info {
+	display: block;
+	padding: 10px 5px;
+	background: url({{ 'transparency.png' | asset_url }});
+	position: absolute;
+	width: 80%;
+	left: 10%;
+	bottom: 5%;
+	cursor: pointer;
+	text-align: center;
+	border: 1px solid #ccc;
+	z-index: 10000;
+}
+
+.article-info h3 { font-size: 12px; margin-bottom: 1em; }
+.article-info p { margin-bottom: 0; }
+.article-info a { text-decoration: none! important; text-transform: uppercase; }
 
 #comments { clear: left; float: left; border-top: 1px solid {{ settings.dotted_color }}; padding-top: 20px; margin-top: 20px; width: 100%; }
 #comment-form { clear: left; float: left; }

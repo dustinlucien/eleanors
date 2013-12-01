@@ -17,23 +17,37 @@
     options && $.extend(settings, options);
 
     function createPhotoElement(photo) {
-	  if((photo.caption) !== null){
+      if((photo.caption) !== null){
         var photo_content = photo.caption.text + "  -  ";
       } else {
         var photo_content = " "
       }
+      
       return $('<div>')
         .addClass('instagram-placeholder desktop-2 mobile-half')
         .attr('id', photo.id)
+        .hover(function(){ $(this).children('.instagram-caption').show(); }, function(){ $(this).children('.instagram-caption').hide(); })
         .append(
-          $('<a>')
-            .attr('target', '_blank')
-			.attr('href', photo.link)
-			.attr('title', photo.caption.text)
+          $('<div>')
+            .addClass('instagram-image')
             .append(
-              $('<img />')
-                .addClass('instagram-image')
-                .attr('src', photo.images.low_resolution.url)
+              $('<a>')
+                .attr('target', '_blank')
+                .attr('href', photo.link)
+                .attr('title', photo_content)
+                .append(
+                  $('<img />')
+                    .attr('src', photo.images.low_resolution.url)
+                )
+            )
+        )
+        .append(
+          $('<div>')
+            .addClass('instagram-caption')
+            .append(
+              $('<a>')
+                .attr('href', photo.link)
+                .html('<h3>' + photo.likes.count + ' likes </h3>')
             )
         );
     }

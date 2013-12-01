@@ -11,40 +11,27 @@
 
     function createArticleElement(article) {
       return $('<li>')
-        .addClass('desktop-4 mobile-3')
+        .addClass('article desktop-4 mobile-3')
         .attr('id', article.ID)
+        //.hover(function(){ $(this).children('.article-info').show(); }, function(){ $(this).children('.article-info').hide(); })
         .append(
           $('<a>')
             .attr('target', '_blank')
             .attr('href', article.URL)
             .attr('title', article.title)
             .append(
-              $('<h3>')
-                .addClass('text-center')
-                .html(article.title)
+              $('<div>')
+                .addClass('article-image')
+                .attr('style', 'background-image: url(' + article.featured_image + ')')
             )
         )
         .append(
           $('<div>')
-            .attr('id', 'homepage-excerpt')
-            .html(article.excerpt)
-        )
-        .append(
-          $('<div>')
-            .addClass('text-left')
+            .addClass('article-info')
             .append(
               $('<a>')
                 .attr('href', article.URL)
-                .html('Read More')
-            )
-        )
-        .append(
-          $('<div>')
-            .addClass('text-right')
-            .append(
-              $('<a>')
-                .attr('href', article.URL + '#comments')
-                .html(article.comment_count + ' comments')
+                .html('<h3>' + article.title + '</h3>')
             )
         );
     }
