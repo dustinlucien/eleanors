@@ -1,0 +1,203 @@
+{% if settings.layout-choose == 'standard-layout' %}
+
+<div id="left-images" class="desktop-7 mobile-3">
+	<a href="{{ settings.homepage-left-1-url }}"><img src="{{ 'hompage-left-1.jpg' | asset_url }}" alt="{{ settings.homepage-left-1-alt }}"></a>
+	<a href="{{ settings.homepage-left-2-url }}"><img src="{{ 'hompage-left-2.jpg' | asset_url }}" alt="{{ settings.homepage-left-2-alt }}" class="last"></a>
+</div>
+
+<div id="right-images" class="desktop-5 mobile-3">
+	<a href="{{ settings.homepage-right-1-url }}"><img src="{{ 'hompage-right-1.jpg' | asset_url }}" alt="{{ settings.homepage-right-1-alt }}"></a>
+	<a href="{{ settings.homepage-right-2-url }}"><img src="{{ 'hompage-right-2.jpg' | asset_url }}" alt="{{ settings.homepage-right-2-alt }}"></a>
+	<a href="{{ settings.homepage-right-3-url }}"><img src="{{ 'hompage-right-3.jpg' | asset_url }}" alt="{{ settings.homepage-right-3-alt }}" class="last"></a>
+</div>
+
+{% elsif settings.layout-choose == 'slideshow' %}
+
+<div id="homepage1" class="desktop-12">
+    <div class="flexslider">
+      <ul class="slides">
+        <li><a href="{{ settings.slide1_url }}"><img src="{{ 'slide1.jpg' | asset_url }}" alt="{{shop.name}}" /></a></li>
+        {% if settings.slide-2-check %}<li><a href="{{ settings.slide2_url }}"><img src="{{ 'slide2.jpg' | asset_url }}" alt="{{ settings.slide1_alt }}" /></a></li>{% endif %}
+        {% if settings.slide-3-check %}<li><a href="{{ settings.slide3_url }}"><img src="{{ 'slide3.jpg' | asset_url }}" alt="{{ settings.slide2_alt }}" /></a></li>{% endif %}
+        {% if settings.slide-4-check %}<li><a href="{{ settings.slide4_url }}"><img src="{{ 'slide4.jpg' | asset_url }}" alt="{{ settings.slide3_alt }}" /></a></li>{% endif %}
+        {% if settings.slide-5-check %}<li><a href="{{ settings.slide5_url }}"><img src="{{ 'slide5.jpg' | asset_url }}" alt="{{ settings.slide5_alt }}" /></a></li>{% endif %}
+        {% if settings.slide-6-check %}<li><a href="{{ settings.slide6_url }}"><img src="{{ 'slide6.jpg' | asset_url }}" alt="{{ settings.slide6_alt }}" /></a></li>{% endif %}
+        {% if settings.slide-7-check %}<li><a href="{{ settings.slide7_url }}"><img src="{{ 'slide7.jpg' | asset_url }}" alt="{{ settings.slide7_alt }}" /></a></li>{% endif %}
+        {% if settings.slide-8-check %}<li><a href="{{ settings.slide8_url }}"><img src="{{ 'slide8.jpg' | asset_url }}" alt="{{ settings.slide8_alt }}" /></a></li>{% endif %}
+        {% if settings.slide-9-check %}<li><a href="{{ settings.slide9_url }}"><img src="{{ 'slide9.jpg' | asset_url }}" alt="{{ settings.slide9_alt }}" /></a></li>{% endif %}
+        {% if settings.slide-10-check %}<li><a href="{{ settings.slide10_url }}"><img src="{{ 'slide10.jpg' | asset_url }}" alt="{{ settings.slide10_alt }}" /></a></li>{% endif %}
+      </ul>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(window).load(function() {
+  $('.flexslider').flexslider({
+    animation: "slide",
+    directionNav: true
+  });
+});
+</script>
+
+{% endif %}
+
+
+<div class="clear"></div>
+
+{% if settings.homepage-products %}
+<div id="homepage-products">
+
+  {% if settings.homepage-collection == '' %}<h2><span>Please choose a Collection to show products or disable homepage products in your theme settings</span></h2>{% else %}
+	<h2><span>{{ settings.homepage-collection-title }}</span></h2>
+  {% endif %}
+
+<ul id="product-loop" style="width: 100%">
+            {% for product in collections.[settings.homepage-collection].products limit: settings.homepage-product-limit %}
+            <li class="product desktop-3 tablet-half mobile-3" data-alpha="{{ product.title }}" data-price="{{ product.price }}">
+                <a href="{{ product.url | within: collection }}" class="text-center">
+                    <img src="{{ product.images[0] | product_img_url: 'grande' }}" alt="{{ product.title | escape }}"/>
+                </a>
+                <div class="product-info">
+                    <a href="{{ product.url | within: collection }}">
+                        {% if settings.vendor %}<p>{{ product.vendor }}</p>{% endif %}
+                        <h3>{{ product.title }}</h3>
+                    </a>
+                    <div class="price">
+						{% if product.price < product.compare_at_price %}
+							<div class="onsale">{{ product.price | money }}</div>
+							<div class="was">{{ product.compare_at_price | money }}</div>
+						{% else %}
+							<div class="prod-price">{{ product.price | money }}</div>
+						{% endif %}
+					</div>
+					<div id="show-sizes">
+						{% include 'size' %}
+					</div>
+                </div>
+            </li>
+            {% endfor %}
+		</ul>
+
+</div>
+<div class="clear"></div>
+{% endif %}
+
+{% if settings.homepage-collections %}
+<div id="homepage-collections">
+
+  {% if settings.collection-1 == '' and settings.collection-2 == '' and settings.collection-3 == '' %}
+  {% else %}
+  	<h2><span>{{ settings.homepage-collections-title }}</span></h2>
+
+    <ul id="collection-loop" style="width: 100%">
+      {% if settings.collection-1 != '' %}
+        {% include 'homepage-collection' with settings.collection-1 %}
+      {% endif %}
+
+      {% if settings.collection-2 != '' %}
+        {% include 'homepage-collection' with settings.collection-2 %}
+      {% endif %}
+
+      {% if settings.collection-3 != '' %}
+        {% include 'homepage-collection' with settings.collection-3 %}
+      {% endif %}
+    </ul>
+
+  {% endif %}
+
+</div>
+<div class="clear"></div>
+{% endif %}
+
+{% if settings.homepage-articles %}
+<div id="homepage-blog">
+
+	<h2>
+		<span>{{settings.homepage-articles-title}}</span>
+	</h2>
+
+    <div id="featured-posts-placeholder" />
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $(".featured-posts-placeholder").wordpress({
+             count: '{{ settings.homepage-articles-count}}',
+             url: '{{ settings.homepage-blog-url }}'
+            });
+
+        });
+
+        $(window).load(function () {
+            $('div.featured-post').each( function(i) {
+                if( i % '{{ settings.homepage-articles-count}}' == 0 )
+                return
+                $(this).addClass('last')
+            })
+        });
+    </script>
+
+            <ul id="featured-posts">
+                {% for article in blogs.[settings.homepage-blog].articles limit: 3 %}
+                <li class="desktop-4 mobile-3">
+                  <a href="{{ article.url }}">
+						        <h3 class="text-center">{{ article.title }}</h3>
+                  </a>
+                  <p class="date text-center">{{ article.published_at | date: "%A %b %d %Y" }}</p>
+                  {% if article.excerpt != blank %}
+                      <div id="homepage-excerpt">{{ article.excerpt }}</div>
+                  {% endif %}
+                <div id="homepage-content">
+                  <p>{{ article.content | strip_html | truncate: 140 }}</p>
+							     <div class="text-left">
+                      <a href="{{ article.url }}">Read More</a>
+                      {% if blog.comments_enabled? %}
+    							       <div class="text-right">
+    								      <a href="{{article.url}}#comments">{{ article.comments_count }} comments</a>
+    							       </div>
+                      {% endif %}
+                    </div>
+                  </div>
+                </li>
+                {% endfor %}
+            </ul>
+  </div>
+<div class="clear"></div>
+{% endif %}
+
+
+{% if settings.instagram %}
+<div id="follow-us">
+
+	<h2>
+		<span>{{ settings.instagram-label }}</span>
+	</h2>
+
+      <script type="text/javascript">
+    // Instagram Extension
+
+    $(document).ready(function() {
+        $(".instagram").instagram({
+            hash: '{{ settings.hashtag }}',
+            show: '6',
+            clientId: '{{ settings.client-id }}'
+        });
+
+    });
+
+    $(window).load(function () {
+        $('div.instagram-placeholder').each( function(i) {
+            if( i % 6 != 6 ) return;
+            $(this).addClass('last')
+        })
+    });
+    </script>
+
+	<div class="instagram"></div>
+
+</div>
+{% endif %}
+
+
+
+
+
+

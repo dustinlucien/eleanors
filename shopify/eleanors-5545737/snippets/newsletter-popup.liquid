@@ -1,0 +1,40 @@
+<script>
+    function createCookie(name,value,days) {
+    	if (days) {
+			var date = new Date();
+			date.setTime(date.getTime()+(days*24*60*60*1000));
+			var expires = "; expires="+date.toGMTString();
+		}
+		else var expires = "";
+		document.cookie = name+"="+value+expires+"; path=/";
+	}
+
+	function readCookie(name) {
+		var nameEQ = name + "=";
+		var ca = document.cookie.split(';');
+		for(var i=0;i < ca.length;i++) {
+			var c = ca[i];
+			while (c.charAt(0)==' ') c = c.substring(1,c.length);
+			if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+		}
+		return null;
+	}
+
+	$(window).load(function(){
+		if (!(readCookie('eleanorsubs') === 'true') && !($.browser.mobile)){
+            $('#mailing-mover').show();
+			$('#mailing-mover').animate({
+				bottom:'30px'
+			},1500);
+		}
+	});
+</script>
+
+<div id="mailing-mover" style="display: none">
+	<a href="#" id="mailing-mover-close" onmousedown="createCookie('eleanorsubs','true',60); $('#mailing-mover').css('display','none');">X</a>
+	<form action="http://eleanorsnyc.us5.list-manage.com/subscribe/post?u=2db0785c770eeb664f90abbdc&amp;id=48bbeca185" method="post" id="mailing-mover-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank">
+		<input type="email" value="" name="EMAIL" class="email" id="mailing-mover-EMAIL" required>
+		<input type="submit" onclick="pageTracker._trackEvent('Newsletter', 'Signup', 'Floater'); _pa.track('newsletter');" value="Subscribe" name="subscribe" id="mailing-mover-embedded-subscribe" class="button">
+	</form>
+	<p id="mailing-mover-linkers">follow us on <a href="http://facebook.com/EleanorsNYC">facebook</a> or <a href="http://pinterest.com/eleanorsnyc">pinterest</a>.
+</div>

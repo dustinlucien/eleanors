@@ -1,0 +1,104 @@
+<!-- For Mobile -->
+    <div id="mobile-product" class="desktop-12 mobile-3">
+        <div class="flexslider">
+          <ul class="slides">
+            {% for image in product.images %}
+            <li><img src="{{ image.src | product_img_url: 'grande' }}" alt="{{ image.alt | escape }}"></li>
+            {% endfor %}
+          </ul>
+        </div>
+    <script type="text/javascript">
+    $(window).load(function() {
+      $('.flexslider').flexslider({
+        animation: "slide",
+        directionNav: false
+      });
+    });
+    </script>
+    </div>
+
+<!-- For Desktop -->
+
+<div id="product-photos" class="desktop-5 mobile-3">
+
+	{% for image in product.images %}
+		{% if forloop.first %}
+            <div id="bigimage" class="desktop-10">
+    			<img id="img_01" src="{{ image | product_img_url: 'grande' }}" data-zoom-image="{{ image | product_img_url: 'original' }}" alt='{{ product.title }}' title="{{ product.title }}" itemprop="image" />
+            </div>
+        {% endif %}
+
+        <ul id="thumbs" class="desktop-2">
+			<li>
+				<a href="#" data-image="{{ image | product_img_url: 'grande' }}" data-zoom-image="{{ image | product_img_url: 'original' }}">
+	    			<img id="img_01" src="{{ image | product_img_url: 'small' }}" alt="{{ image.alt }}" itemprop="image" />
+	  			</a>
+			</li>
+		</ul>
+    {% endfor %}
+
+</div>
+
+<script type="text/javascript">
+$(document).ready(function () {
+
+	//initiate the plugin and pass the id of the div containing gallery images
+	$("#img_01").elevateZoom({gallery:'thumbs', cursor: 'pointer', galleryActiveClass: 'active', borderColour: '#eee', borderSize: '1' });
+
+	//pass the images to Fancybox
+	$("#img_01").bind("click", function(e) {
+	  var ez =   $('#img_01').data('elevateZoom');
+		$.fancybox(ez.getGalleryList());
+	  return false;
+	});
+
+});
+</script>
+
+
+
+<div id="product-right" class="desktop-7 mobile-3" itemscope itemtype="http://schema.org/Product">
+	<div id="product-description" class="desktop-10 mobile-3">
+		{% if settings.vendor %}<h2>{{ product.vendor }}</h2>{% endif %}
+    	<h1 itemprop="name">{{ product.title | escape }}</h1>
+        	<p id="product-price">
+          		{% if product.compare_at_price > product.price %}
+          		<span class="product-price">{{ product.price | money }}</span>&nbsp;<span class="was">{{ product.compare_at_price_max | money }}</span>
+          		{% else %}
+          		<span class="product-price">{{ product.price | money }}</span>
+          		{% endif %}
+        	</p>
+
+		<span itemprop="description">{{ product.description }}</span>
+
+		{% include 'product-form' %}
+
+		<div class="desc">
+    		{% include 'social' with product %}
+		</div>
+
+        <!-- Google Rich Snippets -->
+        <div style="display: none" itemprop="offers" itemscope itemtype="http://schema.org/Offer" >
+          {% for variant in product.variants %}
+              <span itemprop="price">{{ variant.price | money }}</span>
+              {% if variant.available %}
+               <link itemprop="availability" href="http://schema.org/InStock" />
+              {% else %}
+               <link itemprop="availability" href="http://schema.org/OutOfStock" />
+              {% endif %}
+          {% endfor %}
+        </div>
+
+	</div>
+
+	<div id="related" class="desktop-2">
+	{% include 'related-products' %}
+	</div>
+
+</div>
+<div class="clear"></div>
+
+
+<div id="looked-at" class="desktop-12 mobile-half">
+	{% include 'recently-viewed' %}
+</div>

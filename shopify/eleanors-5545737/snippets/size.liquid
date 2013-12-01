@@ -1,0 +1,36 @@
+{% for option in product.options %}
+
+  {% assign option_handle = option | handle %}
+  {% assign option_index = forloop.index0 %}
+
+  {% assign is_size = false %}
+  {% capture downcased_option %}{{ option | downcase }}{% endcapture %}
+  {% if downcased_option contains 'size' %}
+    {% assign is_size = true %}
+  {% endif %}
+
+    <ul class="{{ option_handle }} options">
+    {% assign values = '' %}
+    {% for variant in product.variants %}
+      {% assign value = variant.options[option_index] %}
+      {% capture wrapped_value %},{{ value }},{% endcapture %}
+      {% unless values contains wrapped_value %}
+      {% if is_size %}
+      <li data-option-title="{{ value | escape }}">
+		{% if variant.inventory_quantity == 0 %}
+        <img class="crossed-out" src="{{ 'soldout.png' | asset_url }}" />
+		{% endif %}
+        <span>{{ value }}</span>
+      </li>
+      {% endif %}
+      {% capture values %}{{ values }}{{ wrapped_value }}{% endcapture %}
+      {% endunless %}
+      {% if variant.available %}
+      <script>
+        jQuery('.options:eq({{ option_index }}) li.{{ value | handle }}').removeClass('soldout').addClass('available');
+      </script>
+      {% endif %}
+    {% endfor %}
+    </ul>
+
+{% endfor %}

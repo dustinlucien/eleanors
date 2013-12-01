@@ -1,0 +1,12 @@
+{% comment %}
+NOTE: If there are specific nonexistent URLs which your visitors are likely to request on a regular basis (maybe due to old links from elsewhere on the web), you can set up URL redirection by clicking on your Navigation tab and following the link in the sidebar.
+{% endcomment %}
+
+<div id="error-page">
+  <h3>This page is not available or no longer exists</h3>
+    <p>This page does not exist. Try searching for what you would like to find:</p><br />
+    <form action="{{ shop.url }}/search" method="get" accept-charset="utf-8">
+      <input type="text" name="q"  />
+      <input type="submit" value="Search"/>
+    </form>
+</div> <!-- error-page -->

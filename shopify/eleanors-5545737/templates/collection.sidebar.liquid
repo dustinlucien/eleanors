@@ -1,0 +1,136 @@
+{% paginate collection.products by 30 %}
+<div id="sidebar" class="desktop-3 mobile-3">
+	<h1>{{ collection.title }}</h1>
+
+	<ul>
+		<h4>{{ settings.collection-linklist-1-title }}</h4>
+		{% for link in linklists.[settings.collection-side-1].links %}
+		    <li>{{ link.title | link_to: link.url }}</li>
+		{% endfor %}
+	</ul>
+
+	{% if settings.collection-links-2 %}
+	<ul>
+		<h4>{{ settings.collection-linklist-2-title }}</h4>
+		{% for link in linklists.[settings.collection-side-2].links %}
+		    <li>{{ link.title | link_to: link.url }}</li>
+		{% endfor %}
+	</ul>
+	{% endif %}
+	{% if settings.collection-links-3 %}
+	<ul>
+		<h4>{{ settings.collection-linklist-3-title }}</h4>
+		{% for link in linklists.[settings.collection-side-3].links %}
+		    <li>{{ link.title | link_to: link.url }}</li>
+		{% endfor %}
+	</ul>
+	{% endif %}
+	{% if settings.collection-links-4 %}
+	<ul>
+		<h4>{{ settings.collection-linklist-4-title }}</h4>
+		{% for link in linklists.[settings.collection-side-4].links %}
+		    <li>{{ link.title | link_to: link.url }}</li>
+		{% endfor %}
+	</ul>
+	{% endif %}
+
+	<!-- Start Filtering -->
+{% if settings.filters %}
+	<div id="side-filter">
+	{% include 'dropdown-filter' %}
+	</div>
+{% endif %}
+
+{% if settings.shop-by-designer %}
+	{% if collection.handle == "all" %}
+    <ul>
+	<h4>{{ settings.shop-by-designer-title }}</h4>
+    	{% for product_vendor in shop.vendors %}
+        	<li>{{ product_vendor | link_to_vendor  }}</li>
+        {% endfor %}
+     </ul>
+	{% else %}
+    <ul>
+	<h4>{{ settings.shop-by-designer-title }}</h4>
+        {% for product_vendor in collection.all_vendors %}
+            <li class="{{ product_vendor | handelize }}">{{ product_vendor | link_to_vendor }}</li>
+      	{% endfor %}
+     </ul>
+	{% endif %}
+{% endif %}
+
+</div>
+
+<div id="collection-description" class="desktop-9 mobile-3">
+	{{ collection.description }}
+</div>
+
+
+<ul id="product-loop" class="desktop-9 mobile-3">
+
+     {% for product in collection.products %}
+     <li class="product desktop-4 mobile-3{% cycle ' first', '', '' %}" data-alpha="{{ product.title }}" data-price="{{ product.price }}">
+		{% if product.available %}
+			{% for col in product.collections %}
+			    {% if col.handle == 'new' %}
+			        <div class="new">NEW IN</div>
+			    {% endif %}
+			{% endfor %}
+		   	{% if product.price < product.compare_at_price %}
+			<div class="sale-item">SALE</div>
+			{% endif %}
+		{% else %}
+			<div class="so">SOLD OUT</div>
+		{% endif %}
+         <a href="{{ product.url | within: collection }}">
+             <img src="{{ product.images[0] | product_img_url: 'grande' }}" alt="{{ product.title | escape }}"/>
+         </a>
+         <div class="product-info">
+             <a href="{{ product.url | within: collection }}">
+                 {% if settings.vendor %}<p>{{ product.vendor }}</p>{% endif %}
+                 <h3>{{ product.title }}</h3>
+             </a>
+             <div class="price">
+					{% if product.price < product.compare_at_price %}
+						<div class="onsale">{{ product.price | money }}</div>
+						<div class="was">{{ product.compare_at_price | money }}</div>
+					{% else %}
+						<div class="prod-price">{% if product.price_varies %} from {{ product.price_min | money }} - {{ product.price_max | money }} {% else %}{{ product.price | money }}{% endif %}</div>
+					{% endif %}
+				</div>
+	           {% if product.variants.size > 1 %}
+                  {% if settings.show-sizes %}
+                  <div id="show-sizes">
+                      {% include 'size' %}
+                  </div>
+                  {% endif %}
+           		{% endif %}
+         </div>
+     </li>
+     {% endfor %}
+
+	</ul>
+
+		<div id="pagination" class="desktop-12 tablet-6 mobile-3">
+
+			<span class="count">Showing items {{ paginate.current_offset | plus: 1 }}-{% if paginate.next %}{{ paginate.current_offset | plus: paginate.page_size }}{% else %}{{ paginate.items }}{% endif %} of {{ paginate.items }}.</span>
+
+	        {% if paginate.previous %}
+	          {{ '<' | link_to: paginate.previous.url }}
+	        {% endif %}
+	        {% for part in paginate.parts %}
+	          {% if part.is_link %}
+	            {{ part.title | link_to: part.url }}
+	          {% else %}
+	            {% if part.title == '&hellip;' %}
+	            {{ part.title }}
+	            {% else %}
+	            <span class="current">{{ part.title }}</span>
+	            {% endif %}
+	          {% endif %}
+	        {% endfor %}
+	        {% if paginate.next %}
+	          {{ '>' | link_to: paginate.next.url }}
+	        {% endif %}
+		</div>
+	{% endpaginate %}
