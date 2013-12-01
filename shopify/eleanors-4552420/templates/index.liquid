@@ -116,23 +116,24 @@ $(window).load(function() {
 		<span>{{settings.homepage-articles-title}}</span>
 	</h2>
 
-         <script type="text/javascript">
-            $(document).ready(function() {
-                $(".wordpress").wordpress({
-                 show: '{{ settings.homepage-articles-count}}',
-                 blogUrl: '{{ settings.homepage-blog-url }}'
-                });
-
-                });
-
-                $(window).load(function () {
-                $('div.featured-post').each( function(i) {
-                    if( i % '{{ settings.homepage-articles-count}}' == 0 )
-                    return
-                    $(this).addClass('last')
-                })
+    <div id="featured-posts-placeholder" />
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $(".featured-posts-placeholder").wordpress({
+             count: '{{ settings.homepage-articles-count}}',
+             url: '{{ settings.homepage-blog-url }}'
             });
-        </script>
+
+        });
+
+        $(window).load(function () {
+            $('div.featured-post').each( function(i) {
+                if( i % '{{ settings.homepage-articles-count}}' == 0 )
+                return
+                $(this).addClass('last')
+            })
+        });
+    </script>
 
             <ul id="featured-posts">
                 {% for article in blogs.[settings.homepage-blog].articles limit: 3 %}
@@ -180,18 +181,17 @@ $(window).load(function() {
 
     $(document).ready(function() {
         $(".instagram").instagram({
-          hash: '{{ settings.hashtag }}',
-         show: '6',
-        clientId: '{{ settings.client-id }}'
+            hash: '{{ settings.hashtag }}',
+            show: '6',
+            clientId: '{{ settings.client-id }}'
         });
 
-        });
+    });
 
-        $(window).load(function () {
+    $(window).load(function () {
         $('div.instagram-placeholder').each( function(i) {
-        if( i % 6 != 6 )
-        return
-        $(this).addClass('last')
+            if( i % 6 != 6 ) return;
+            $(this).addClass('last')
         })
     });
     </script>

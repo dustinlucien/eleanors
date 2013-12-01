@@ -31,7 +31,7 @@
 			.attr('href', photo.link)
 			.attr('title', photo.caption.text)
             .append(
-              $('<img>')
+              $('<img />')
                 .addClass('instagram-image')
                 .attr('src', photo.images.low_resolution.url)
             )

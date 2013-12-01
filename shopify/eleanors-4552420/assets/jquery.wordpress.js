@@ -38,7 +38,7 @@
           params = {};
 
       if (settings.url != null) {
-        url += "/sites/" + settings.url
+        url += "/sites/" + settings.url + "/posts/";
       }
 
       if (settings.count != null) {
